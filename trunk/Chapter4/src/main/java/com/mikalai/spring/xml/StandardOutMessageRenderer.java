@@ -1,5 +1,6 @@
 package com.mikalai.spring.xml;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service("messageRenderer")
@@ -16,6 +17,7 @@ public class StandardOutMessageRenderer implements MessageRenderer {
 
     }
 
+    @Autowired
     public void setMessageProvider(MessageProvider provider) {
         this.messageProvider = provider;
 

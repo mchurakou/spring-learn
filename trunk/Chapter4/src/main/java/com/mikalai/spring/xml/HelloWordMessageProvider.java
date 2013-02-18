@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 
 
-@Service("messageProvider")
+//@Service("messageProvider")
 public class HelloWordMessageProvider implements MessageProvider {
 	
 
