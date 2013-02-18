@@ -1,8 +1,7 @@
 package com.mikalai.spring.annotation;
 
 import org.springframework.context.support.GenericXmlApplicationContext;
-
-import com.mikalai.spring.xml.MessageProvider;
+import com.mikalai.spring.xml.MessageRenderer;
 
 public class Runner {
 
@@ -13,9 +12,10 @@ public class Runner {
         GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
         ctx.load("classpath:app-context-annotation.xml");
         ctx.refresh();
-        
-        MessageProvider messageProvider = ctx.getBean("messageProvider", MessageProvider.class);
-        System.out.println(messageProvider.getMessage());
+
+        MessageRenderer messageRenderer = ctx.getBean("messageRenderer", MessageRenderer.class);
+        messageRenderer.render();
+
     }
 
 }
