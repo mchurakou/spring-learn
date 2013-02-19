@@ -19,6 +19,26 @@
             <ref bean="messageProvider"/>
         </property>
     </bean>
+    
+    <bean id="injectSimple" class="com.mikalai.spring.xml.InjectSimple">
+        <property name="name">
+            <value>Mikalai</value>
+        </property>
+        <property name="age">
+            <value>35</value>
+        </property>
+        <property name="height">
+            <value>1.78</value>
+        </property>
+        <property name="programmer">
+            <value>true</value>
+        </property>
+        <property name="ageInSeconds">
+            <value>113760000</value>
+        </property>
+    </bean>
+    
+
 
 
 </beans>
