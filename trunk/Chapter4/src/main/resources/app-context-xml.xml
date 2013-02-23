@@ -38,6 +38,25 @@
         </property>
     </bean>
     
+    <bean id="injectSimpleConfig" class="com.mikalai.spring.spel.InjectSimpleConfig"/>
+
+    <bean id="injectSimpleSpel" class="com.mikalai.spring.spel.InjectSimpleSpel">
+        <property name="name">
+            <value>#{injectSimpleConfig.name}</value>
+        </property>
+        <property name="age">
+            <value>#{injectSimpleConfig.age + 1}</value>
+        </property>
+        <property name="height">
+            <value>#{injectSimpleConfig.height + 1}</value>
+        </property>
+        <property name="programmer">
+            <value>#{injectSimpleConfig.programmer}</value>
+        </property>
+        <property name="ageInSeconds">
+            <value>#{injectSimpleConfig.ageInSeconds + 1}</value>
+        </property>
+    </bean>
 
 
 
