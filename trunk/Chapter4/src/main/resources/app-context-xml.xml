@@ -57,6 +57,78 @@
             <value>#{injectSimpleConfig.ageInSeconds + 1}</value>
         </property>
     </bean>
+    
+    <bean id="oracle" class="com.mikalai.spring.BookwormOracle"/>
+    
+    <bean id="injectRef" class="com.mikalai.spring.xml.InjectRef">
+        <property name="oracle">
+            <ref local="oracle"/>
+        </property>
+       
+    </bean>
+    
+   <!--  <bean id="injectBean" class="java.lang.String">
+        <constructor-arg>
+            <value>Bean in child</value>
+        </constructor-arg>
+    </bean>
+    
+    <bean id="target1" class="com.mikalai.spring.hierarchical.SimpleTarget">
+        <property name="val">
+            <ref bean="injectBeanParent"/>
+        </property>
+    </bean>
+    
+    <bean id="target2" class="com.mikalai.spring.hierarchical.SimpleTarget">
+        <property name="val">
+            <ref bean="injectBean"/>
+        </property>
+    </bean>
+    
+    <bean id="target3" class="com.mikalai.spring.hierarchical.SimpleTarget">
+        <property name="val">
+            <ref parent="injectBean"/>
+        </property>
+    </bean>-->
+    
+    <bean id="injectCollection" class="com.mikalai.spring.collection.CollectionInjection">
+        <property name="map">
+            <map>
+                <entry key="someValue">
+                    <value>Hello World!</value>
+                </entry>
+                <entry key="someBean">
+                    <ref local="oracle"/>
+                </entry>
+            </map>
+        </property>
+        
+        <property name="props">
+            <props>
+                <prop key="firstName">
+                    Clarance
+                </prop>
+                 <prop key="secondName">
+                    Ho
+                </prop>
+            </props>
+        </property>
+        
+        <property name="set">
+            <set>
+                <value>Hello guys!</value>
+                <ref local="oracle"/>
+            </set>
+        </property>
+        
+        <property name="list">
+            <list>
+                <value>elem1</value>
+                <ref local="oracle"/>
+            </list>
+        </property>
+    </bean>
+    
 
 
 
