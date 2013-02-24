@@ -12,9 +12,39 @@
 
     
     <context:annotation-config/>
-    <context:component-scan base-package="com.mikalai.spring.xml com.mikalai.spring.spel"/>
+    <context:component-scan base-package="com.mikalai.spring"/>
     
     <bean id="message" class="java.lang.String"
         c:_0="This is a configurable message"/>
+        
+    <util:map id="map" map-class="java.util.HashMap">
+        <entry key="someValue">
+            <value>Hello World!</value>
+        </entry>
+        <entry key="someBean">
+            <ref local="oracle"/>
+        </entry>
+    </util:map>
+    
+    <util:properties id="props">
+        <prop key="firstName">
+                    Clarance
+        </prop>
+         <prop key="secondName">
+            Ho
+        </prop>
+    </util:properties>
+    
+    <util:set id="set">
+        <value>Hello guys!</value>
+        <ref local="oracle"/>
+    </util:set>
+    
+    <util:list id="list">
+        <value>Hello guys!</value>
+        <ref local="oracle"/>
+    </util:list>
+                
+
 
 </beans>
