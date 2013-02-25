@@ -129,6 +129,25 @@
         </property>
     </bean>
     
+    
+    <bean id="inheritParent" class="com.mikalai.spring.inheritance.SimpleBean">
+        <property name="name">
+            <value>Roolf</value>
+        </property>
+        <property name="age">
+            <value>100</value>
+        </property>
+       
+    </bean>
+    
+    <bean id="inheritChild" class="com.mikalai.spring.inheritance.SimpleBean" parent="inheritParent">
+
+        <property name="age">
+            <value>35</value>
+        </property>
+       
+    </bean>
+    
 
 
 
