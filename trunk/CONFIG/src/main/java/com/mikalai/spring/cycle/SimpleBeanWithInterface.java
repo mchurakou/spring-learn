@@ -1,11 +1,12 @@
 package com.mikalai.spring.cycle;
 
 import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
-public class SimpleBeanWithInterface implements InitializingBean {
+public class SimpleBeanWithInterface implements InitializingBean, DisposableBean {
     private static final String DEFAULT_NAME = "Luke Skywalker";
     private String name = null;
     private int age = Integer.MIN_VALUE;
@@ -47,7 +48,9 @@ public class SimpleBeanWithInterface implements InitializingBean {
         
         SimpleBeanWithInterface sb1 = getBean("simpleBeanWintInterface1", ctx);
         SimpleBeanWithInterface sb2 = getBean("simpleBeanWintInterface2", ctx);
-        SimpleBeanWithInterface sb3 = getBean("simpleBeanWintInterface3", ctx);
+        //SimpleBeanWithInterface sb3 = getBean("simpleBeanWintInterface3", ctx);
+        
+        ctx.destroy();
 
     }
     @Override
@@ -63,5 +66,12 @@ public class SimpleBeanWithInterface implements InitializingBean {
         }
 
     }
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("Destroy:" + SimpleBeanWithInterface.class);
+        
+    }
+    
+
 
 }

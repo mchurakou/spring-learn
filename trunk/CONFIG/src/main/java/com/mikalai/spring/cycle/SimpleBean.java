@@ -1,12 +1,15 @@
 package com.mikalai.spring.cycle;
 
 import org.springframework.beans.factory.BeanCreationException;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 
 
-public class SimpleBean {
+public class SimpleBean implements BeanNameAware {
+    
+    private String beanName = "";
     private static final String DEFAULT_NAME = "Luke Skywalker";
     private String name = null;
     private int age = Integer.MIN_VALUE;
@@ -35,6 +38,10 @@ public class SimpleBean {
         }
     }
     
+    public void destroy(){
+        System.out.println("Destroy:" + SimpleBean.class + " " + beanName);
+    }
+    
     private static SimpleBean getBean(String beanName, ApplicationContext ctx){
         try{
             SimpleBean bean = (SimpleBean) ctx.getBean(beanName);
@@ -58,7 +65,14 @@ public class SimpleBean {
         
         SimpleBean sb1 = getBean("simpleBean1", ctx);
         SimpleBean sb2 = getBean("simpleBean2", ctx);
-        SimpleBean sb3 = getBean("simpleBean3", ctx);
+        //SimpleBean sb3 = getBean("simpleBean3", ctx);
+        
+        ctx.destroy();
 
+    }
+    @Override
+    public void setBeanName(String name) {
+        beanName = name;
+        
     }
 }
