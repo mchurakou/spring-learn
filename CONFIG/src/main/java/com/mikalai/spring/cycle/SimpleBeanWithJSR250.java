@@ -1,6 +1,7 @@
 package com.mikalai.spring.cycle;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.context.ApplicationContext;
@@ -44,11 +45,14 @@ public class SimpleBeanWithJSR250 {
     public static void main(String[] args) {
         GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
         ctx.load("classpath:app-context.xml");
+        ctx.registerShutdownHook();
         ctx.refresh();
         
         SimpleBeanWithJSR250 sb1 = getBean("simpleBeanWithJSR2501", ctx);
         SimpleBeanWithJSR250 sb2 = getBean("simpleBeanWithJSR2502", ctx);
-        SimpleBeanWithJSR250 sb3 = getBean("simpleBeanWithJSR2503", ctx);
+        //SimpleBeanWithJSR250 sb3 = getBean("simpleBeanWithJSR2503", ctx);
+        
+        //ctx.destroy();
 
     }
     
@@ -64,5 +68,10 @@ public class SimpleBeanWithJSR250 {
             throw new IllegalArgumentException("Set age for " + SimpleBeanWithJSR250.class);
         }
 
+    }
+    
+    @PreDestroy
+    public void destroy(){
+        System.out.println("DESTROY:" + SimpleBeanWithJSR250.class);
     }
 }

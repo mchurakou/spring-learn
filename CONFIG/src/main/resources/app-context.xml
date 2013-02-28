@@ -12,7 +12,7 @@
     
     <context:annotation-config/>
     
-    <bean id="simpleBean1" class="com.mikalai.spring.cycle.SimpleBean" init-method="init">
+    <bean id="simpleBean1" class="com.mikalai.spring.cycle.SimpleBean" init-method="init"  destroy-method="destroy">
         <property name="name">
             <value>Clarence Ho</value>
         </property>
