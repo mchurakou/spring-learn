@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+    <bean id="shaDigest" class="com.mikalai.spring.factory.MessageDigestFactoryBean">
+        <property name="algorithmName">
+            <value>SHA1</value>
+        </property>
+    </bean>
+    
+    <bean id="defaultDigest" class="com.mikalai.spring.factory.MessageDigestFactoryBean"/>
+    
+    <bean id="digester" class="com.mikalai.spring.factory.MessageDigester">
+        <property name="digest1">
+            <ref local="shaDigest"/>
+        </property>
+        <property name="digest2">
+            <ref local="defaultDigest"/>
+        </property>
+    </bean>
+    
+    
+    
+    
+    <bean id="shaDigestFactory" class="com.mikalai.spring.factory.MessageDigestFactory">
+        <property name="algoritm">
+            <value>SHA1</value>
+        </property>
+    </bean>
+    
+    <bean id="defaultDigestFactory" class="com.mikalai.spring.factory.MessageDigestFactory"/>
+    
+    <bean id="shaDigestF" factory-bean="shaDigestFactory" factory-method="createInstance"/>
+    
+     <bean id="defaultDigestF" factory-bean="defaultDigestFactory" factory-method="createInstance"/>
+     
+     <bean id="digesterFactory" class="com.mikalai.spring.factory.MessageDigester">
+        <property name="digest1">
+            <ref local="shaDigestF"/>
+        </property>
+        <property name="digest2">
+            <ref local="defaultDigestF"/>
+        </property>
+    </bean>
+</beans>
