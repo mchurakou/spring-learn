@@ -113,10 +113,15 @@ public class PlainContactDAO implements ContactDAO {
         return null;
     }
 
-	@Override
 	public String findLastNamebyId(Long id) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public List<Contact> findAllWithDetail() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }
