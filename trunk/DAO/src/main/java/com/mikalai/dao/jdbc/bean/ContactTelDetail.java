@@ -8,7 +8,7 @@ public class ContactTelDetail implements Serializable {
     @Override
     public String toString() {
         return "ContactTelDetail [id=" + id + ", contactId=" + contactId
-                + ", telType=" + telType + ", telNumnber=" + telNumnber + "]";
+                + ", telType=" + telType + ", telNumnber=" + telNumber + "]";
     }
     public Long getId() {
         return id;
@@ -29,11 +29,11 @@ public class ContactTelDetail implements Serializable {
         this.telType = telType;
     }
     public String getTelNumnber() {
-        return telNumnber;
+        return telNumber;
     }
-    public void setTelNumnber(String telNumnber) {
-        this.telNumnber = telNumnber;
+    public void setTelNumber(String telNumber) {
+        this.telNumber = telNumber;
     }
     private String telType;
-    private String telNumnber;
+    private String telNumber;
 }
