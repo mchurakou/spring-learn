@@ -12,6 +12,8 @@ public interface ContactDAO {
     public void delete(Long contactID);
     
     public String findFirstNamebyId(Long id);
+    public String sfFindFirstNamebyId(Long id);
+    
     public String findLastNamebyId(Long id);
     public List<Contact>findAllWithDetail();
     public void insertWithDetail(Contact contact);

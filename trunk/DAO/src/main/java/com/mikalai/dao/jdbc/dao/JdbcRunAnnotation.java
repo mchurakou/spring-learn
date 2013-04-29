@@ -22,7 +22,7 @@ public class JdbcRunAnnotation {
 
         
         
-        Contact c = new Contact();
+        /*Contact c = new Contact();
         c.setId(1l);
         c.setFirstName("Clarence");
         c.setLastName("Peter");
@@ -59,7 +59,10 @@ public class JdbcRunAnnotation {
                     System.out.println("---" + detail);
                 }
             }
-        }
+        }*/
+        
+        String res = contactDAO.sfFindFirstNamebyId(2l);
+        System.out.println("FIRST:" + res);
         
 
 
