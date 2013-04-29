@@ -35,6 +35,7 @@ public class JdbcContacAnnotationDAO implements ContactDAO {
     private UpdateContact updateContact;
     private InsertContact insertContact;
     private InsertContactTelDetail insertContactTelDetail;
+    private SfFirstNameById sfFirstNameById;
     
     public Log getLog() {
         return log;
@@ -56,6 +57,7 @@ public class JdbcContacAnnotationDAO implements ContactDAO {
         this.selectContactByFirstNam = new SelectContactByFirstName(dataSource);
         this.updateContact = new UpdateContact(dataSource);
         this.insertContact = new InsertContact(dataSource);
+        this.sfFirstNameById = new SfFirstNameById(dataSource);
     }
 
     @Override
@@ -188,6 +190,12 @@ public class JdbcContacAnnotationDAO implements ContactDAO {
             return new ArrayList<Contact> (map.values());
         }
         
+    }
+
+    @Override
+    public String sfFindFirstNamebyId(Long id) {
+        List<String> result = sfFirstNameById.execute(id);
+        return result.get(0);
     }   
 
 }
