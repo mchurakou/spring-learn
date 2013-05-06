@@ -16,6 +16,15 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name="contact")
+@NamedQueries({
+    @NamedQuery(
+      name="Contact.findAllWithDetail",
+      query="select distinct c from Contact c left join fetch c.contactTelDetails t left join fetch c.hobbies h"),
+    
+    @NamedQuery(
+            name="Contact.findById",
+            query="select distinct c from Contact c left join fetch c.contactTelDetails t left join fetch c.hobbies h where c.id=:id")
+ })
 public class Contact implements Serializable {
     private Long id;
     private String firstName;
@@ -27,7 +36,7 @@ public class Contact implements Serializable {
     private Set<Hobby> hobbies = new HashSet<Hobby>();
     
     
-    @ManyToMany
+    @ManyToMany(/*fetch=FetchType.EAGER*/)
     @JoinTable(name="contact_hobby_detail", joinColumns = @JoinColumn(name="CONTACT_ID"),
     inverseJoinColumns = @JoinColumn(name="HOBBY_ID"))
     public Set<Hobby> getHobbies() {
@@ -80,7 +89,7 @@ public class Contact implements Serializable {
         this.birthDate = date;
     }
     
-    @OneToMany(mappedBy="contact", cascade=CascadeType.ALL, orphanRemoval=true)
+    @OneToMany(mappedBy="contact", cascade=CascadeType.ALL, orphanRemoval=true/*, fetch=FetchType.EAGER*/)
     public Set<ContactTelDetail> getContactTelDetails() {
         return contactTelDetails;
     }

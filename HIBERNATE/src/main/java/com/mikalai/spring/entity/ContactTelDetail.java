@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,7 +20,6 @@ import javax.persistence.Version;
 @Table(name="contact_tel_detail")
 public class ContactTelDetail implements Serializable {
     private Long id;
-    private Long contactId;
     private String telType;
     private String telNumber;
     private int version;
@@ -46,8 +46,7 @@ public class ContactTelDetail implements Serializable {
 
     @Override
     public String toString() {
-        return "ContactTelDetail [id=" + id + ", contactId=" + contactId
-                + ", telType=" + telType + ", telNumnber=" + telNumber + "]";
+        return "ContactTelDetail [id=" + id + ",  telType= "+ telType + ",  telNumber=" + telNumber + "]";
     }
     
     @Id
@@ -59,12 +58,7 @@ public class ContactTelDetail implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getContactId() {
-        return contactId;
-    }
-    public void setContactId(Long contactId) {
-        this.contactId = contactId;
-    }
+
     
     @Column(name="TEL_TYPE")
     public String getTelType() {
@@ -75,7 +69,7 @@ public class ContactTelDetail implements Serializable {
     }
     
     @Column(name="TEL_NUMBER")
-    public String getTelNumnber() {
+    public String getTelNumber() {
         return telNumber;
     }
     public void setTelNumber(String telNumber) {
@@ -91,10 +85,7 @@ public class ContactTelDetail implements Serializable {
     public void setVersion(int version) {
         this.version = version;
     }
-    public String getTelNumber() {
-        return telNumber;
-    }
-    
+
     
     @ManyToOne
     @JoinColumn(name="CONTACT_ID")
