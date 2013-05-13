@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,42 +33,46 @@ public class ContactServiceImpl implements ContactService {
         this.em = em;
     }
 
-    @Override
+    @Transactional(readOnly=true)
     public List<Contact> findAll() {
-        // TODO Auto-generated method stub
-        return null;
+        List<Contact> contacts = em.createNamedQuery("Contact.findAll", Contact.class).getResultList();
+        return contacts;
     }
 
-    @Override
+    @Transactional(readOnly=true)
     public List<Contact> findAllWithDetail() {
-        // TODO Auto-generated method stub
-        return null;
+        List<Contact> contacts = em.createNamedQuery("Contact.findAllWithDetail", Contact.class).getResultList();
+        return contacts;
     }
 
-    @Override
+    @Transactional(readOnly=true)
     public Contact findById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        TypedQuery<Contact> query = em.createNamedQuery("Contact.findById", Contact.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
     }
 
     @Override
     public Contact save(Contact contact) {
-        // TODO Auto-generated method stub
-        return null;
+        if (contact.getId() == null){
+            log.info("new");
+            em.persist(contact);
+        } else{
+            em.merge(contact);
+            log.info("update");
+        }
+        return contact;
+            
     }
 
     @Override
     public void delete(Contact contact) {
-        // TODO Auto-generated method stub
+        Contact mergedContact = em.merge(contact);
+        em.remove(mergedContact);
+        log.info("deleted:" + contact);
 
     }
 
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        // TODO Auto-generated method stub
 
-    }
 
 }
