@@ -19,7 +19,9 @@ public class Run {
         ctx.refresh();
         
         ContactService contactService = ctx.getBean("jpaContactService", ContactService.class);
-        List<Contact> list = contactService.findAllWithDetail();
+        //List<Contact> list = contactService.findAllWithDetail();
+        
+        List<Contact> list = contactService.findByCtiteriaQuery("John", "Smith");
         for (Contact c : list){
             System.out.println(c);
             if (c.getContactTelDetails() != null){
