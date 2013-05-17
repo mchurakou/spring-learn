@@ -13,13 +13,16 @@ import javax.persistence.criteria.Root;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.common.collect.Lists;
 import com.mikalai.spring.domain.Contact;
 import com.mikalai.spring.domain.Contact_;
+import com.mikalai.spring.jpa.repository.ContactRepository;
 
 @Service("jpaContactService")
 @Repository
@@ -29,6 +32,11 @@ public class ContactServiceImpl implements ContactService {
     
     private Log log = LogFactory.getLog(ContactServiceImpl.class);
     
+    @Autowired
+    private ContactRepository contactRepository;
+    
+  
+
     @PersistenceContext
     private EntityManager em;
 
@@ -109,6 +117,24 @@ public class ContactServiceImpl implements ContactService {
         List<Contact> res = em.createQuery(criteriaQuery).getResultList();
         return res;
         
+    }
+
+    @Transactional(readOnly=true)
+    public List<Contact> findByFirstName(String firstName) {
+        return Lists.newArrayList(contactRepository.findByFirstName(firstName));
+    }
+
+    @Transactional(readOnly=true)
+    public List<Contact> findByFirstNameAndLastName(String firstName, String lastName) {
+        return Lists.newArrayList(contactRepository.findByFirstNameAndLastName(firstName, lastName));
+    }
+    
+    public ContactRepository getContactRepository() {
+        return contactRepository;
+    }
+
+    public void setContactRepository(ContactRepository contactRepository) {
+        this.contactRepository = contactRepository;
     }
 
 

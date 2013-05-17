@@ -13,5 +13,8 @@ public interface ContactService {
     
     public List<Contact> findAllByNativeQuery();
     
+    public List<Contact> findByFirstName(String firstName);
+    public List<Contact> findByFirstNameAndLastName(String firstName, String lastName);
+    
     public List<Contact> findByCtiteriaQuery(String firstName, String lastName);
 }
