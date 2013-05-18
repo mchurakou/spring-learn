@@ -21,7 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.google.common.collect.Lists;
 import com.mikalai.spring.domain.Contact;
-import com.mikalai.spring.domain.Contact_;
+//import com.mikalai.spring.domain.Contact_;
 import com.mikalai.spring.jpa.repository.ContactRepository;
 
 @Service("jpaContactService")
@@ -95,7 +95,7 @@ public class ContactServiceImpl implements ContactService {
 
     @Transactional(readOnly=true)
     public List<Contact> findByCtiteriaQuery(String firstName, String lastName) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
+        /*CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Contact> criteriaQuery = cb.createQuery(Contact.class);
         Root<Contact> contactRoot = criteriaQuery.from(Contact.class);
         contactRoot.fetch(Contact_.contactTelDetails, JoinType.LEFT);
@@ -115,7 +115,8 @@ public class ContactServiceImpl implements ContactService {
         
         criteriaQuery.where(criteria);
         List<Contact> res = em.createQuery(criteriaQuery).getResultList();
-        return res;
+        return res;*/
+        return null;
         
     }
 
