@@ -113,11 +113,11 @@
 		    <artifactId>spring-aspects</artifactId>
 		    <version>3.1.0.RELEASE</version>
 		</dependency>
-		<dependency>
-		    <groupId>joda-time</groupId>
-		    <artifactId>joda-time</artifactId>
-		    <version>2.0</version>
-		</dependency>
+<dependency>
+	<groupId>joda-time</groupId>
+	<artifactId>joda-time</artifactId>
+	<version>2.2</version>
+</dependency>
 		<dependency>
 		    <groupId>joda-time</groupId>
 		    <artifactId>joda-time-hibernate</artifactId>
@@ -134,6 +134,12 @@
            <artifactId>spring-data-commons-core</artifactId>
            <version>1.4.1.RELEASE</version>
         </dependency>
+        
+        <dependency>
+		<groupId>org.jadira.usertype</groupId>
+		<artifactId>usertype.core</artifactId>
+		<version>3.0.0.CR1</version>
+		</dependency>
 	</dependencies>
 
 	<build>

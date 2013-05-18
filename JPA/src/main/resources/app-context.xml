@@ -46,5 +46,9 @@
     <jpa:repositories base-package="com.mikalai.spring.jpa.repository"
                       entity-manager-factory-ref="emf"
                       transaction-manager-ref="transactionManager"/>
+                      
+    <jpa:auditing auditor-aware-ref="auditorAwareBean"/>
+    
+    <bean id="auditorAwareBean" class="com.mikalai.spring.jpa.AuditorAwareBean"/>
 
 </beans>
