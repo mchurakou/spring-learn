@@ -61,11 +61,26 @@ public class Run {
         contactAudit.setLastName("UZD");
         contactAudit.setBirthDate(new Date());
         contactAuditService.save(contactAudit);
+        
+       
+        
+        
         System.out.println("AUDIT:");
         List<ContactAudit> listA = contactAuditService.findAll();
         for (ContactAudit ca : listA){
             System.out.println(ca);
         }
+        
+        contactAudit.setFirstName("MILANO");
+        
+        contactAuditService.save(contactAudit);
+        
+        System.out.println("VERSIONS:");
+        
+        ContactAudit contactAudit1 = contactAuditService.findAuditByRevision(1L, 1);
+        System.out.println(contactAudit1);
+        ContactAudit contactAudit2 = contactAuditService.findAuditByRevision(1L, 2);
+        System.out.println(contactAudit2);
 
     }
 

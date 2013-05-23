@@ -1,6 +1,7 @@
 package com.mikalai.spring.domain;
 
 import java.io.Serializable;
+import org.hibernate.envers.Audited;
 
 
 import java.util.Date;
@@ -20,6 +21,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 
 @Entity
+@Audited
 @Table(name="contact_audit")
 
 public class ContactAudit implements Auditable<String, Long> {
