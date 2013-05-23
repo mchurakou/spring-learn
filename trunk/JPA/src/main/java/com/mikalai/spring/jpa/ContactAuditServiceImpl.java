@@ -2,6 +2,11 @@ package com.mikalai.spring.jpa;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.hibernate.envers.AuditReader;
+import org.hibernate.envers.AuditReaderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -19,6 +24,11 @@ public class ContactAuditServiceImpl implements ContactAuditService {
     @Autowired
     private ContactAuditRepository contactAuditRepository;
     
+    @PersistenceContext
+    private EntityManager em;
+    
+
+
     @Transactional(readOnly=true)
     public List<ContactAudit> findAll() {
         return Lists.newArrayList(contactAuditRepository.findAll());
@@ -35,10 +45,18 @@ public class ContactAuditServiceImpl implements ContactAuditService {
         return contactAuditRepository.save(contact);
     }
 
-    @Override
+    @Transactional(readOnly=true)
     public ContactAudit findAuditByRevision(Long id, int revision) {
-        // TODO Auto-generated method stub
-        return null;
+        AuditReader auditReader = AuditReaderFactory.get(em);
+        return auditReader.find(ContactAudit.class, id, revision);
+    }
+    
+    public EntityManager getEm() {
+        return em;
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
     }
 
 
