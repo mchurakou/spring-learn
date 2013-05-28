@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mikalai.spring.mybatis.domain.Contact;
+import com.mikalai.spring.mybatis.domain.ContactTelDetail;
+import com.mikalai.spring.mybatis.domain.SearchCriteria;
 import com.mikalai.spring.mybatis.persistence.ContactMapper;
 import com.sun.corba.se.pept.broker.Broker;
 import com.sun.corba.se.pept.encoding.InputObject;
@@ -48,16 +50,29 @@ public class ContactServiceImpl implements ContactService {
         return contacts;
     }
 
-    @Override
+    @Transactional(readOnly=true)
     public List<Contact> findAllWithDetail() {
-        // TODO Auto-generated method stub
-        return null;
+        List<Contact> contacts = contactMapper.findAllWithDetail();
+        for (Contact c : contacts){
+            populate(c);
+        }
+        return contacts;
+    }
+    
+    private void populate(Contact c){
+        if (c.getContactTelDetails() != null){
+            for (ContactTelDetail ctd : c.getContactTelDetails()){
+                ctd.setContact(c);
+            }
+        }
     }
 
-    @Override
+    @Transactional(readOnly=true)
     public Contact findById(Long id) {
-        // TODO Auto-generated method stub
-        return null;
+        Contact contact = contactMapper.findById(id);
+        populate(contact);
+
+        return contact;
     }
 
     @Override
@@ -75,8 +90,15 @@ public class ContactServiceImpl implements ContactService {
     @Override
     public List<Contact> findByFirstNameAndLastName(String firstName,
             String lastName) {
-        // TODO Auto-generated method stub
-        return null;
+        SearchCriteria sc = new SearchCriteria();
+        sc.setFirstName(firstName);
+        sc.setLastName(lastName);
+        
+        List<Contact> contacts = contactMapper.findByFirstNameAndLastName(sc);
+        for (Contact c : contacts){
+            populate(c);
+        }
+        return contacts;
     }
 
 

@@ -1,17 +1,40 @@
 package com.mikalai.spring.mybatis.domain;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-public class Contact {
+public class Contact implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
     private Date birthDate;
+    private Set<ContactTelDetail> contactTelDetails = new HashSet<ContactTelDetail>();;
+  
+    private Set<Hobby> hobbies = new HashSet<Hobby>();
+    
     @Override
     public String toString() {
         return "Contact [id=" + id + ", firstName=" + firstName + ", lastName="
-                + lastName + ", birthDate=" + birthDate + "]";
+                + lastName + ", birthDate=" + birthDate
+                + ", contactTelDetails=" + contactTelDetails + ", hobbies="
+                + hobbies + "]";
     }
+    
+    public Set<Hobby> getHobbies() {
+        return hobbies;
+    }
+    public void setHobbies(Set<Hobby> hobbies) {
+        this.hobbies = hobbies;
+    }
+    public Set<ContactTelDetail> getContactTelDetails() {
+        return contactTelDetails;
+    }
+    public void setContactTelDetails(Set<ContactTelDetail> contactTelDetails) {
+        this.contactTelDetails = contactTelDetails;
+    }
+   
     public Long getId() {
         return id;
     }
