@@ -1,5 +1,6 @@
 package com.mikalai.spring.mybatis;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -10,9 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mikalai.spring.mybatis.domain.Contact;
+import com.mikalai.spring.mybatis.domain.ContactHobbyDetail;
 import com.mikalai.spring.mybatis.domain.ContactTelDetail;
+import com.mikalai.spring.mybatis.domain.Hobby;
 import com.mikalai.spring.mybatis.domain.SearchCriteria;
+import com.mikalai.spring.mybatis.persistence.ContactHobbyDetailMapper;
 import com.mikalai.spring.mybatis.persistence.ContactMapper;
+import com.mikalai.spring.mybatis.persistence.ContactTelDetailMapper;
 import com.sun.corba.se.pept.broker.Broker;
 import com.sun.corba.se.pept.encoding.InputObject;
 import com.sun.corba.se.pept.encoding.OutputObject;
@@ -33,15 +38,14 @@ public class ContactServiceImpl implements ContactService {
     
     @Autowired
     private ContactMapper contactMapper;
+    
+    @Autowired
+    private ContactTelDetailMapper contactTelDetailMapper;
+    
+    @Autowired
+    private ContactHobbyDetailMapper contactHobbyDetailMapper;
 
-    public ContactMapper getContactMapper() {
-        return contactMapper;
-    }
-
-    public void setContactMapper(ContactMapper contactMapper) {
-        this.contactMapper = contactMapper;
-    }
-
+   
   
 
     @Transactional(readOnly=true)
@@ -75,15 +79,24 @@ public class ContactServiceImpl implements ContactService {
         return contact;
     }
 
-    @Override
+    @Transactional(readOnly=true)
     public Contact save(Contact contact) {
-        // TODO Auto-generated method stub
-        return null;
+        if (contact.getId() == null) {
+        	insert(contact);
+        } else {
+        	update(contact);
+        	
+        }
+        	
+        return contact;
     }
 
     @Override
     public void delete(Contact contact) {
-        // TODO Auto-generated method stub
+        Long id = contact.getId();
+        contactTelDetailMapper.deleteTelDetailForContact(id);
+        contactHobbyDetailMapper.deleteHobbyDetailForContact(id);
+        contactMapper.deleteContact(id);
 
     }
 
@@ -100,6 +113,103 @@ public class ContactServiceImpl implements ContactService {
         }
         return contacts;
     }
+
+    
+	public void insert(Contact contact) {
+    	contactMapper.insertContact(contact);
+    	Long contactId = contact.getId();
+    	
+    	ContactHobbyDetail chd;
+    	
+    	if (contact.getContactTelDetails() != null){
+            for (ContactTelDetail ctd : contact.getContactTelDetails()){
+            	ctd.setContact(contact);
+            	contactTelDetailMapper.insertContactTelDetail(ctd);
+            }
+        }
+        
+        
+        if (contact.getHobbies() != null){
+            for (Hobby h : contact.getHobbies()){
+            	chd = new ContactHobbyDetail();
+            	chd.setContactId(contactId);
+            	chd.setHobbyId(h.getHobbyId());
+            	contactHobbyDetailMapper.insertContactHobbyDetail(chd);
+            }
+        }
+		
+	}
+    
+    private Contact update(Contact contact) {
+		contactMapper.updateContact(contact);
+		Long contactId = contact.getId();
+		ContactHobbyDetail contactHobbyDetail;
+		
+		// List storing orphan ids of contact tel details
+		List<Long> ids = new ArrayList<Long>();
+		
+		// Retrieve existing telephones for contact
+		List<ContactTelDetail> oldContactTelDetails = contactTelDetailMapper.selectTelDetailForContact(contactId);
+	    for (ContactTelDetail contactTelDetail: oldContactTelDetails) {
+	    	ids.add(contactTelDetail.getId());
+	    }
+		
+		// Update telephone details
+		if (contact.getContactTelDetails() != null) {
+			for (ContactTelDetail contactTelDetail: contact.getContactTelDetails()) {
+				if (contactTelDetail.getId() == null) {
+					contactTelDetailMapper.insertContactTelDetail(contactTelDetail);
+				} else {
+					contactTelDetailMapper.updateContactTelDetail(contactTelDetail);
+					ids.remove(contactTelDetail.getId());
+				}
+			}
+			if (ids.size() > 0) {
+				contactTelDetailMapper.deleteOrphanContactTelDetail(ids);
+			}
+		}
+		
+		// Update hobby details
+		contactHobbyDetailMapper.deleteHobbyDetailForContact(contact.getId());
+		if (contact.getHobbies() != null) {
+			for (Hobby hobby: contact.getHobbies()) {
+				contactHobbyDetail = new ContactHobbyDetail();
+				contactHobbyDetail.setContactId(contactId);
+				contactHobbyDetail.setHobbyId(hobby.getHobbyId());				
+				contactHobbyDetailMapper.insertContactHobbyDetail(contactHobbyDetail);
+			}
+		}
+		
+		return contact;
+	}
+    
+    public ContactTelDetailMapper getContactTelDetailMapper() {
+		return contactTelDetailMapper;
+	}
+
+	public void setContactTelDetailMapper(
+			ContactTelDetailMapper contactTelDetailMapper) {
+		this.contactTelDetailMapper = contactTelDetailMapper;
+	}
+
+	public ContactHobbyDetailMapper getContactHobbyDetailMapper() {
+		return contactHobbyDetailMapper;
+	}
+
+	public void setContactHobbyDetailMapper(
+			ContactHobbyDetailMapper contactHobbyDetailMapper) {
+		this.contactHobbyDetailMapper = contactHobbyDetailMapper;
+	}
+
+	public ContactMapper getContactMapper() {
+        return contactMapper;
+    }
+
+    public void setContactMapper(ContactMapper contactMapper) {
+        this.contactMapper = contactMapper;
+    }
+
+
 
 
 }
