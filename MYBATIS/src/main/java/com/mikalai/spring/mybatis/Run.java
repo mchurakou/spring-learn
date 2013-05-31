@@ -1,7 +1,9 @@
 package com.mikalai.spring.mybatis;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.context.support.GenericXmlApplicationContext;
 
@@ -50,10 +52,41 @@ public class Run {
             
         }
         
+        Contact newC = new Contact();
+        newC.setFirstName("MIKALAI");
+        newC.setLastName("Churakou");
+        
+        ContactTelDetail ctd = new ContactTelDetail();
+        ctd.setTelNumber("23");
+        ctd.setTelType("home");
+        Set<ContactTelDetail> ctds = new HashSet<ContactTelDetail>();
+        ctds.add(ctd);
+        newC.setContactTelDetails(ctds);
+        
+        
+        Hobby h = new Hobby();
+        h.setHobbyId("Jogging");
+        Set<Hobby> hs = new HashSet<Hobby>();
+        hs.add(h);
+        newC.setHobbies(hs);
+        
+        contactService.save(newC);
         
         System.out.println("BY ID:");
-        Contact c = contactService.findById(1l);
+        Contact c = contactService.findById(newC.getId());
         System.out.println(c);
+        
+        
+        System.out.println("UPDATING");
+        c.setFirstName("CHANGED");
+        contactService.save(c);
+        c = contactService.findById(newC.getId());
+        System.out.println(c);
+        
+        System.out.println("DELTETING");
+        contactService.delete(c);
+        
+        
         
       
     }

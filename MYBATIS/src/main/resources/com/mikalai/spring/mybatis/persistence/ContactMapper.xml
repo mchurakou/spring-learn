@@ -89,7 +89,24 @@
                 AND last_name = #{lastName}
             </if>   
         </where>               
-    </select>  
+    </select>
+    
+    <insert id="insertContact" parameterType="Contact" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO CONTACT (FIRST_NAME, LAST_NAME, BIRTH_DATE) 
+        VALUES (#{firstName}, #{lastName}, #{birthDate})    
+    </insert> 
+    
+    <update id="updateContact" parameterType="Contact">
+        UPDATE CONTACT SET
+            FIRST_NAME = #{firstName},
+            LAST_NAME = #{lastName},
+            BIRTH_DATE = #{birthDate}
+        WHERE ID = #{id}   
+    </update> 
+    
+    <delete id="deleteContact" parameterType="long">
+        DELETE FROM CONTACT WHERE ID = #{id}
+    </delete> 
     
          
     
