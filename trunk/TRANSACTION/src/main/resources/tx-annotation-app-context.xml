@@ -29,7 +29,7 @@
         <property name="jpaVendorAdapter">
             <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
         </property>        
-        <property name="packagesToScan" value="com.apress.prospring3.ch13.domain"/>
+        <property name="packagesToScan" value="com.mikalai.spirng.domain"/>
         <property name="jpaProperties">
             <props>
                 <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
@@ -41,7 +41,7 @@
         </property>
     </bean>    
 
-	<context:component-scan base-package="com.mikalai.spring" />
+	<context:component-scan base-package="com.mikalai.spring.service" />
 
     <jpa:repositories base-package="com.mikalai.spring.repository"
                       entity-manager-factory-ref="emf"
