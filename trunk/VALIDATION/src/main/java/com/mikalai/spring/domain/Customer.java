@@ -5,9 +5,11 @@ import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import com.mikalai.spring.annotation.CheckIndividualCustomer;
+
 //import com.apress.prospring3.ch14.jsr303.validator.CheckIndividualCustomer;
 
-//@CheckIndividualCustomer
+@CheckIndividualCustomer
 public class Customer {
 
 	@NotNull
