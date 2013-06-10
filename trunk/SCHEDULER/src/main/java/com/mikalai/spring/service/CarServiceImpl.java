@@ -39,7 +39,7 @@ public class CarServiceImpl implements CarService {
 		return carRepository.save(car);
 	}
 	
-	//@Scheduled(fixedDelay=10000)
+	@Scheduled(fixedDelay=10000)
 	//@Scheduled(fixedRate=10000)
 	//@Scheduled(cron="0 * * * * *")
 	public void updateCarAgeJob() {
