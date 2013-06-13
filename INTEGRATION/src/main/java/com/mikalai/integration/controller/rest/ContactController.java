@@ -43,7 +43,7 @@ public class ContactController {
 	
 	@RequestMapping(value="/", method=RequestMethod.POST )
 	@ResponseBody
-	public Contact create(@RequestBody Contact contact) {
+	public Contact create(@RequestBody @Valid Contact contact) {
 		logger.info("Creating contact: " + contact);
 		contactService.save(contact);
 		logger.info("Contact created successfully with info: " + contact);
