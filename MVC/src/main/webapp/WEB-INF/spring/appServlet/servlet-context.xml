@@ -30,7 +30,7 @@
 	
 	<!-- register "global" interceptor beans to apply to all registered HandlerMappings -->
     <interceptors>
-        <!-- <beans:bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>-->      
+        <beans:bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>      
         <beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
     </interceptors>
     
@@ -42,6 +42,13 @@
     
      <!-- store preferred language configuration in a cookie -->
     <beans:bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" id="localeResolver" p:cookieName="locale"/>
+	
+	<!-- resolves localized <theme_name>.properties files in the classpath to allow for theme support -->
+    <beans:bean class="org.springframework.ui.context.support.ResourceBundleThemeSource" id="themeSource"/>
+    
+    <!-- store preferred theme configuration in a cookie -->
+    <beans:bean class="org.springframework.web.servlet.theme.CookieThemeResolver" id="themeResolver" p:cookieName="theme" p:defaultThemeName="standard"/>                  
+    
 	
 	
 </beans:beans>
