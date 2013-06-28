@@ -7,7 +7,7 @@
     <jsp:directive.page contentType="text/html;charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>  
     
-      
+    <spring:url value="/contacts/" var="showContactUrl"/>   
     
     <h1><spring:message code="label_contact_list"/></h1>
     <c:if test="${not empty contacts}">
@@ -23,7 +23,7 @@
     			<c:forEach items="${contacts}" var="contact">
     				<tr>
     					<td>
-    						${contact.firstName}
+    						<a href="${showContactUrl}/${contact.id}">${contact.firstName}</a>
     					</td>
     					<td>
     						${contact.lastName}

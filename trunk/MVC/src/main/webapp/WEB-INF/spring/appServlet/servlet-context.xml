@@ -11,7 +11,7 @@
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<annotation-driven validator="validator"/>
 	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
     <resources location="/, classpath:/META-INF/web-resources/" mapping="/resources/**"/>
@@ -60,7 +60,11 @@
                 <beans:value>/WEB-INF/layouts/layouts.xml</beans:value>
             </beans:list>
         </beans:property>
-    </beans:bean>                  
+    </beans:bean>      
+    
+    <beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <beans:property name="validationMessageSource" ref="messageSource"/>
+    </beans:bean>             
     
 	
 	

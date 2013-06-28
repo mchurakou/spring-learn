@@ -33,6 +33,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.common.collect.Lists;
 import com.mikalai.mvc.domain.Contact;
 import com.mikalai.mvc.service.ContactService;
+import com.mikalai.mvc.web.form.Message;
+import com.mikalai.mvc.web.util.UrlUtil;
 
 /**
  * @author Clarence
@@ -44,9 +46,11 @@ public class ContactController {
 
 	final Logger logger = LoggerFactory.getLogger(ContactController.class);	
 	
-	/*@Autowired
-	MessageSource messageSource;*/
+	@Autowired
+	MessageSource messageSource;
 	
+	
+
 	@Autowired
 	private ContactService contactService;
 	
@@ -62,7 +66,7 @@ public class ContactController {
 		return "contacts/list";
 	}
 	
-	/*@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") Long id, Model uiModel) {
         Contact contact = contactService.findById(id);
 		uiModel.addAttribute("contact", contact);
@@ -71,8 +75,8 @@ public class ContactController {
 	
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.POST)
     public String update(@Valid Contact contact, BindingResult bindingResult, Model uiModel, 
-    		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
-    		@RequestParam(value="file", required=false) Part file) {
+    		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale
+    		/*@RequestParam(value="file", required=false) Part file*/) {
 		logger.info("Updating contact");
         if (bindingResult.hasErrors()) {
         	uiModel.addAttribute("message", new Message("error", messageSource.getMessage("contact_save_fail", new Object[]{}, locale)));        	
@@ -83,7 +87,7 @@ public class ContactController {
         redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("contact_save_success", new Object[]{}, locale)));        
 
         // Process upload file
-        if (file != null) {
+       /* if (file != null) {
 			logger.info("File name: " + file.getName());
 			logger.info("File size: " + file.getSize());
 			logger.info("File content type: " + file.getContentType());
@@ -97,7 +101,7 @@ public class ContactController {
 				logger.error("Error saving uploaded file");
 			}
 			contact.setPhoto(fileContent);
-		}          
+		}    */      
         
         contactService.save(contact);
         return "redirect:/contacts/" + UrlUtil.encodeUrlPathSegment(contact.getId().toString(), httpServletRequest);
@@ -111,8 +115,8 @@ public class ContactController {
 	
 	@RequestMapping(params = "form", method = RequestMethod.POST)
     public String create(@Valid Contact contact, BindingResult bindingResult, Model uiModel, 
-    		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
-    		@RequestParam(value="file", required=false) Part file) {
+    		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale/*,
+    		@RequestParam(value="file", required=false) Part file*/) {
 		logger.info("Creating contact");
         if (bindingResult.hasErrors()) {
 			uiModel.addAttribute("message", new Message("error", messageSource.getMessage("contact_save_fail", new Object[]{}, locale)));
@@ -125,7 +129,7 @@ public class ContactController {
         logger.info("Contact id: " + contact.getId());
         
         // Process upload file
-        if (file != null) {
+        /*if (file != null) {
 			logger.info("File name: " + file.getName());
 			logger.info("File size: " + file.getSize());
 			logger.info("File content type: " + file.getContentType());
@@ -139,13 +143,13 @@ public class ContactController {
 				logger.error("Error saving uploaded file");
 			}
 			contact.setPhoto(fileContent);
-		}          
+		}  */        
         
         contactService.save(contact);
         return "redirect:/contacts/" + UrlUtil.encodeUrlPathSegment(contact.getId().toString(), httpServletRequest);
     }	
 	
-	@PreAuthorize("isAuthenticated()")
+	//@PreAuthorize("isAuthenticated()")
 	@RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model uiModel) {
 		Contact contact = new Contact();
@@ -215,5 +219,14 @@ public class ContactController {
         
 		return contact.getPhoto();
 	}*/
+	
+	
+	public MessageSource getMessageSource() {
+		return messageSource;
+	}
+
+	public void setMessageSource(MessageSource messageSource) {
+		this.messageSource = messageSource;
+	}
 	
 }
