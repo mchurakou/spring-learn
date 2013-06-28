@@ -79,7 +79,8 @@ public class Contact implements Serializable {
 	}
 	
 	@Column(name = "BIRTH_DATE")
-	@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+	//@Type(type="org.joda.time.contrib.hibernate.PersistentDateTime")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@DateTimeFormat(iso=ISO.DATE)
 	public DateTime getBirthDate() {
 		return birthDate;

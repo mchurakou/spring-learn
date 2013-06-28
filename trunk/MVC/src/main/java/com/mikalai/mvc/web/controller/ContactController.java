@@ -33,13 +33,11 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.google.common.collect.Lists;
 import com.mikalai.mvc.domain.Contact;
 import com.mikalai.mvc.service.ContactService;
+import com.mikalai.mvc.web.form.ContactGrid;
 import com.mikalai.mvc.web.form.Message;
 import com.mikalai.mvc.web.util.UrlUtil;
 
-/**
- * @author Clarence
- *
- */
+
 @RequestMapping("/contacts")
 @Controller
 public class ContactController {
@@ -162,7 +160,7 @@ public class ContactController {
 	 * @param uiModel
 	 * @return
 	 */
-	/*@RequestMapping(value = "/listgrid", method = RequestMethod.GET, produces="application/json")
+	@RequestMapping(value = "/listgrid", method = RequestMethod.GET, produces="application/json")
 	@ResponseBody
 	public ContactGrid listGrid(@RequestParam(value = "page", required = false) Integer page,
 			@RequestParam(value = "rows", required = false) Integer rows,
@@ -207,7 +205,7 @@ public class ContactController {
 		return contactGrid;
 	}	
 	
-	@RequestMapping(value = "/photo/{id}", method = RequestMethod.GET)
+	/*@RequestMapping(value = "/photo/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public byte[] downloadPhoto(@PathVariable("id") Long id) {
 		

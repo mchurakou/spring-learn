@@ -38,9 +38,9 @@ public class ContactServiceImpl implements ContactService {
 		return contactRepository.save(contact);
 	}
 
-	/*@Transactional(readOnly=true)
+	@Transactional(readOnly=true)
 	public Page<Contact> findAllByPage(Pageable pageable) {
 		return contactRepository.findAll(pageable);
-	}	*/
+	}	
 	
 }
