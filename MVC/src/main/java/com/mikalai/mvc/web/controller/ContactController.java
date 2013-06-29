@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.Part;
+import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
@@ -73,8 +73,8 @@ public class ContactController {
 	
 	@RequestMapping(value = "/{id}", params = "form", method = RequestMethod.POST)
     public String update(@Valid Contact contact, BindingResult bindingResult, Model uiModel, 
-    		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale
-    		/*@RequestParam(value="file", required=false) Part file*/) {
+    		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
+    		@RequestParam(value="file", required=false) Part file) {
 		logger.info("Updating contact");
         if (bindingResult.hasErrors()) {
         	uiModel.addAttribute("message", new Message("error", messageSource.getMessage("contact_save_fail", new Object[]{}, locale)));        	
@@ -85,7 +85,7 @@ public class ContactController {
         redirectAttributes.addFlashAttribute("message", new Message("success", messageSource.getMessage("contact_save_success", new Object[]{}, locale)));        
 
         // Process upload file
-       /* if (file != null) {
+        if (file != null) {
 			logger.info("File name: " + file.getName());
 			logger.info("File size: " + file.getSize());
 			logger.info("File content type: " + file.getContentType());
@@ -99,7 +99,7 @@ public class ContactController {
 				logger.error("Error saving uploaded file");
 			}
 			contact.setPhoto(fileContent);
-		}    */      
+		}          
         
         contactService.save(contact);
         return "redirect:/contacts/" + UrlUtil.encodeUrlPathSegment(contact.getId().toString(), httpServletRequest);
@@ -113,8 +113,8 @@ public class ContactController {
 	
 	@RequestMapping(params = "form", method = RequestMethod.POST)
     public String create(@Valid Contact contact, BindingResult bindingResult, Model uiModel, 
-    		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale/*,
-    		@RequestParam(value="file", required=false) Part file*/) {
+    		HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
+    		@RequestParam(value="file", required=false) Part file) {
 		logger.info("Creating contact");
         if (bindingResult.hasErrors()) {
 			uiModel.addAttribute("message", new Message("error", messageSource.getMessage("contact_save_fail", new Object[]{}, locale)));
@@ -127,7 +127,7 @@ public class ContactController {
         logger.info("Contact id: " + contact.getId());
         
         // Process upload file
-        /*if (file != null) {
+        if (file != null) {
 			logger.info("File name: " + file.getName());
 			logger.info("File size: " + file.getSize());
 			logger.info("File content type: " + file.getContentType());
@@ -141,13 +141,13 @@ public class ContactController {
 				logger.error("Error saving uploaded file");
 			}
 			contact.setPhoto(fileContent);
-		}  */        
+		}          
         
         contactService.save(contact);
         return "redirect:/contacts/" + UrlUtil.encodeUrlPathSegment(contact.getId().toString(), httpServletRequest);
     }	
 	
-	//@PreAuthorize("isAuthenticated()")
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(params = "form", method = RequestMethod.GET)
     public String createForm(Model uiModel) {
 		Contact contact = new Contact();
@@ -205,7 +205,7 @@ public class ContactController {
 		return contactGrid;
 	}	
 	
-	/*@RequestMapping(value = "/photo/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/photo/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public byte[] downloadPhoto(@PathVariable("id") Long id) {
 		
@@ -216,7 +216,7 @@ public class ContactController {
         }
         
 		return contact.getPhoto();
-	}*/
+	}
 	
 	
 	public MessageSource getMessageSource() {
