@@ -15,6 +15,7 @@
     
     <spring:message code="date_format_pattern" var="dateFormatPattern"/>
     
+    
    
     
     <spring:url value="/contacts" var="editContactUrl"/>    
