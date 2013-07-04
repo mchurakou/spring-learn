@@ -1,6 +1,4 @@
-/**
- * Created on Dec 29, 2011
- */
+
 package com.apress.prospring3.ch18.web.converter;
 
 import javax.faces.component.UIComponent;
