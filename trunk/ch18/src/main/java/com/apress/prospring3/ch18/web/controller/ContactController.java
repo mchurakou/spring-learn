@@ -10,7 +10,7 @@ import org.primefaces.model.DualListModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.binding.message.MessageBuilder;
+import org.springframework.binding.message.MessageBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.webflow.execution.RequestContext;
 
@@ -76,7 +76,7 @@ public class ContactController {
 		
 	}
 	
-	/*public void saveContact(RequestContext context) {
+	public void saveContact(RequestContext context) {
 		
 		// Retrieve contact bean
 		ContactBean contactBean = (ContactBean) context.getFlowScope().get("contactBean");
@@ -92,6 +92,6 @@ public class ContactController {
 		
 		context.getMessageContext().addMessage(new MessageBuilder().info().code("message_contact_save_success").build());
 		
-	}	*/
+	}	
 	
 }
