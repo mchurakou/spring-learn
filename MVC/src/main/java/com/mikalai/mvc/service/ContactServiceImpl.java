@@ -41,6 +41,15 @@ public class ContactServiceImpl implements ContactService {
 	@Transactional(readOnly=true)
 	public Page<Contact> findAllByPage(Pageable pageable) {
 		return contactRepository.findAll(pageable);
-	}	
+	}
+
+	 @Transactional(readOnly=true)
+	    public Contact findByFirstNameAndLastName(String firstName, String lastName) {
+		 	List<Contact> contacts = contactRepository.findByFirstNameAndLastName(firstName, lastName);
+		 	if (contacts.size() > 0 )
+		 		return contacts.get(0);
+		 	else 
+		 		return null;
+	    }
 	
 }

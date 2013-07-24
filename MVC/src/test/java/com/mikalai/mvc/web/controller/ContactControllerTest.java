@@ -69,7 +69,7 @@ public class ContactControllerTest extends AbstractControllerTest {
 		assertEquals(1, modelContacts.size());
 	}
 	
-	/*@Test
+	@Test
 	public void testCreate() {
 		
 		final Contact newContact = new Contact();
@@ -102,5 +102,5 @@ public class ContactControllerTest extends AbstractControllerTest {
 		assertNotNull(result);
 		assertEquals("redirect:/contacts/999", result);
 		assertEquals(2, contacts.size());
-	}*/		
+	}	
 }
