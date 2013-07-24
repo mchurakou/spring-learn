@@ -17,6 +17,8 @@ public interface ContactService {
 	
 	public Contact save(Contact contact);
 	
-	public Page<Contact> findAllByPage(Pageable pageable);	
+	public Page<Contact> findAllByPage(Pageable pageable);
+
+	public Contact findByFirstNameAndLastName(String string, String string2);	
 	
 }
