@@ -1,12 +1,18 @@
 
 package com.mikalai.mvc.test.ui;
 
+import java.io.File;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverBackedSelenium;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import com.thoughtworks.selenium.SeleneseTestBase;
 
@@ -18,32 +24,47 @@ public class UIAddContactTest extends SeleneseTestBase {
 	
 	@Before
 	public void setUp() throws Exception {
-		WebDriver driver = new FirefoxDriver();
+		try {
+
+		
+		WebDriver driver = new ChromeDriver();
+
+		
 		String baseUrl = "http://localhost:8080/";
 		selenium = new WebDriverBackedSelenium(driver, baseUrl);
+		
+		
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
 	public void testAddContact() {
 		
 		// Login
-		loginAs(USERNAME, PASSWORD);
-		
-		// Enter add contact form
-		selenium.open("/mvc/contacts?form");
-		selenium.waitForPageToLoad("30000");
-		
-		// Fill in contact information
-		selenium.type("firstName", "Andy");
-		selenium.type("lastName", "Lau");
-		selenium.click("name=submit");
-		
-		// Verification
-		verifyTrue(selenium.isTextPresent("Andy"));
-		verifyTrue(selenium.isTextPresent("Lau"));
-		
-		// Logout
-		logout();
+		try {
+			loginAs(USERNAME, PASSWORD);
+			
+			// Enter add contact form
+			selenium.open("/mvc/contacts?form");
+			selenium.waitForPageToLoad("30000");
+			
+			// Fill in contact information
+			selenium.type("firstName", "Andy");
+			selenium.type("lastName", "Lau");
+			selenium.click("name=submit");
+			
+			// Verification
+			verifyTrue(selenium.isTextPresent("Andy"));
+			verifyTrue(selenium.isTextPresent("Lau"));
+			
+			// Logout
+			logout();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	@Test
@@ -75,7 +96,7 @@ public class UIAddContactTest extends SeleneseTestBase {
 		selenium.open("/mvc/contacts");
 		selenium.type("j_username", userName);
 		selenium.type("j_password", password);
-		selenium.click("name=login");
+		selenium.click("name=submit");
 		selenium.waitForPageToLoad("30000");		
 	}
 	

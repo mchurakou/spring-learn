@@ -53,6 +53,7 @@ public class ContactServiceImplTest extends AbstractServiceImplTest {
 		assertNull(result);
 	}	
 	
+	
 	@Test
 	public void testAddContact()
 		throws Exception {
@@ -65,6 +66,8 @@ public class ContactServiceImplTest extends AbstractServiceImplTest {
 		contact.setLastName("Johnson");
 
 		contact = customerService.save(contact);
+		
+       
 		em.flush();
 		
 		List<Contact> contacts = customerService.findAll();
