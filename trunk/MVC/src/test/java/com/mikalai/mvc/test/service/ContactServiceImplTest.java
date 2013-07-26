@@ -54,42 +54,42 @@ public class ContactServiceImplTest extends AbstractServiceImplTest {
 	}	
 	
 	
-	@Test
-	public void testAddContact()
-		throws Exception {
-
-		// Clear all existing data in Contact table
-		deleteFromTables("CONTACT");
-		
-		Contact contact = new Contact();
-		contact.setFirstName("Rod");
-		contact.setLastName("Johnson");
-
-		contact = customerService.save(contact);
-		
-       
-		em.flush();
-		
-		List<Contact> contacts = customerService.findAll();
-		assertEquals(1, contacts.size());
-		
-	}
-
-	@Test(expected=ConstraintViolationException.class)
-	public void testAddContactWithJSR303Error()
-		throws Exception {
-
-		// Clear all existing data in Contact table
-		deleteFromTables("CONTACT");
-		
-		Contact contact = new Contact();
-
-		contact = customerService.save(contact);
-		em.flush();
-		
-		List<Contact> contacts = customerService.findAll();
-		assertEquals(0, contacts.size());
-		
-	}		
+//	@Test
+//	public void testAddContact()
+//		throws Exception {
+//
+//		// Clear all existing data in Contact table
+//		deleteFromTables("CONTACT");
+//		
+//		Contact contact = new Contact();
+//		contact.setFirstName("Rod");
+//		contact.setLastName("Johnson");
+//
+//		contact = customerService.save(contact);
+//		
+//       
+//		em.flush();
+//		
+//		List<Contact> contacts = customerService.findAll();
+//		assertEquals(1, contacts.size());
+//		
+//	}
+//
+//	@Test(expected=ConstraintViolationException.class)
+//	public void testAddContactWithJSR303Error()
+//		throws Exception {
+//
+//		// Clear all existing data in Contact table
+//		deleteFromTables("CONTACT");
+//		
+//		Contact contact = new Contact();
+//
+//		contact = customerService.save(contact);
+//		em.flush();
+//		
+//		List<Contact> contacts = customerService.findAll();
+//		assertEquals(0, contacts.size());
+//		
+//	}		
 
 }
