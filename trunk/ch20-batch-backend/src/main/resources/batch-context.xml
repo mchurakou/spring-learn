@@ -20,6 +20,37 @@
         <property name="jobRepository" ref="jobRepository" />
     </bean>
     
+    <!-- Spring Integration Configuration: Start -->
+    <integration:channel id="files"/>
+    
+    <integration:channel id="requests"/>
+    
+    <integration:channel id="statuses">
+        <integration:queue capacity="10"/>
+    </integration:channel>    
+    
+    <file:inbound-channel-adapter 
+        directory="file:C:/temp/contact"
+        channel="files">
+        <integration:poller id="poller" fixed-delay="5000"/>
+    </file:inbound-channel-adapter>    
+
+    <integration:transformer input-channel="files" output-channel="requests">
+        <bean class="com.apress.prospring3.ch20.batch.integration.FileMessageToJobRequest">
+            <property name="job" ref="importContactsJob"/>
+            <property name="fileParameterName" value="inputFile"/>
+        </bean>
+    </integration:transformer>
+    
+    <integration:service-activator method="launch" input-channel="requests"
+        output-channel="statuses">
+        <bean id="messageHandler"
+            class="org.springframework.batch.integration.launch.JobLaunchingMessageHandler">
+            <constructor-arg ref="jobLauncher"/>
+        </bean>
+    </integration:service-activator>
+    <!-- Spring Integration Configuration: End -->
+    
         
 
 </beans>
