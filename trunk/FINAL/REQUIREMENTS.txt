@@ -1,0 +1,21 @@
+-SQL schema
+-SQL data
+-domain objects
+-DAO (HIBERNATE)
+-logging
+-TESTS
+-Service layer, transactions
+-MVC
+-REST
+-MYSQL and H2 перключать профилями
+-Tiles
+-Validation
+-file upload
+-text editor
+-grid
+-i18n
+-property files
+-security
+-db audit
+-scheduled cleaner audits table
+-JMX
