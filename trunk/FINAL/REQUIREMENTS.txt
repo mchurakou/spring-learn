@@ -1,7 +1,7 @@
 -SQL schema
 -SQL data
 -domain objects
--DAO (HIBERNATE)
+-DAO (HIBERNATE) and connection pool
 -logging
 -TESTS
 -Service layer, transactions
