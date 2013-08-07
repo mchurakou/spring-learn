@@ -1,4 +1,4 @@
--SQL schema
++SQL schema
 -SQL data
 -domain objects
 -DAO (HIBERNATE) and connection pool
@@ -17,5 +17,5 @@
 -property files
 -security
 -db audit
--scheduled cleaner audits table
--JMX
+
+
