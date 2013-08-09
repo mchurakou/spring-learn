@@ -1,5 +1,5 @@
 +SQL schema
--SQL data
++SQL data
 -domain objects
 -DAO (HIBERNATE) and connection pool
 -logging
@@ -7,7 +7,7 @@
 -Service layer, transactions
 -MVC
 -REST
--MYSQL and H2 РїРµСЂРєР»СЋС‡Р°С‚СЊ РїСЂРѕС„РёР»СЏРјРё
+-MYSQL and H2 перключать профилями
 -Tiles
 -Validation
 -file upload
