@@ -14,6 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mikalai.finals.dao.ContactDAO;
+import com.mikalai.finals.domain.Contact;
 import com.mikalai.finals.domain.Hobby;
 
 
@@ -29,12 +30,30 @@ public class ContactDAOTest {
 
     @Test
 	@Transactional
-	public void testSaveOrderWithItems() throws Exception {
-	    List<Hobby> hobbies = contactDAO.getAllHobbies();
+	public void testAllHobbiess() throws Exception {
+	    List<Hobby> hobbies = contactDAO.getHobbies();
 		
 		Assert.assertNotNull(hobbies);
 		Assert.assertTrue(hobbies.size() > 0);
 	}
+    
+    @Test
+    @Transactional
+    public void testAllContacts() throws Exception {
+        List<Contact> contacts = contactDAO.getContacts();
+        
+        Assert.assertNotNull(contacts);
+        Assert.assertTrue(contacts.size() > 0);
+    }
+    
+    @Test
+    @Transactional
+    public void testAllContactsWithDetail() throws Exception {
+        List<Contact> contacts = contactDAO.getContactsWithDetail();
+        
+        Assert.assertNotNull(contacts);
+        Assert.assertTrue(contacts.size() > 0);
+    }
 
 	/*@Test
 	@Transactional
