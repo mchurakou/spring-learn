@@ -1,5 +1,6 @@
 package com.mikalai.finals.test;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -28,12 +29,39 @@ public class Test {
         }
         
         List<Contact> contacts = contactDAO.getContactsWithDetail();
+        //List<Contact> contacts = contactDAO.getContacts();
+        
         
         System.out.println("Contacts:");
         
         for (Contact c : contacts){
             System.out.println(c);
         }
+        
+        
+        Contact contact = contactDAO.getContactById(1L);
+        System.out.println("Contact1:" + contact);
+        
+        
+        contact.setFirstName("TEST");
+        contactDAO.save(contact);
+                
+        contact = contactDAO.getContactById(1L);
+        System.out.println("Contact2:" + contact);
+        
+        Contact newContact =  new Contact();
+        newContact.setFirstName("NEWfirst");
+        newContact.setLastName("newLast");
+        newContact.setBirthDate(new Date());
+        
+        contactDAO.save(newContact);
+        
+        newContact = contactDAO.getContactById(newContact.getId());
+        System.out.println("NEW CONTACT:" + newContact);
+        
+        contactDAO.delete(newContact);
+        System.out.println("Deleted");
+        
         
         
         

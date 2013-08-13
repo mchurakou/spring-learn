@@ -32,7 +32,7 @@ public class ContactDAOImpl implements ContactDAO {
     }
     
     
-    @Override
+    @Transactional(readOnly=true)
     public List<Hobby> getHobbies() {
         log.info("Entered in ContactDAOImpl.getHobbies()");
         List<Hobby> hobbies = sessionFactory.getCurrentSession().createQuery("FROM Hobby h").list();
@@ -40,7 +40,7 @@ public class ContactDAOImpl implements ContactDAO {
         return hobbies;
     }
 
-    @Override
+    @Transactional(readOnly=true)
     public List<Contact> getContacts() {
         log.info("Entered in ContactDAOImpl.getContacts()");
         List<Contact> contacts = sessionFactory.getCurrentSession().createQuery("FROM Contact c").list();
@@ -48,12 +48,35 @@ public class ContactDAOImpl implements ContactDAO {
         return contacts;
     }
 
-    @Override
+    @Transactional(readOnly=true)
     public List<Contact> getContactsWithDetail() {
         log.info("Entered in ContactDAOImpl.getContactsWithDetail()");
         List<Contact> contacts = sessionFactory.getCurrentSession().getNamedQuery("Contact.getContactsWithDetail").list();
         log.info("Retrived count of contacts= " + contacts.size());
         return contacts;
+    }
+
+    @Transactional(readOnly=true)
+    public Contact getContactById(Long id) {
+        log.info("Entered in ContactDAOImpl.getContactById()");
+        Contact contact = (Contact) sessionFactory.getCurrentSession().getNamedQuery("Contact.getContactById").setParameter("id", id).uniqueResult();
+        log.info("Retrived contact: " + contact);
+        return contact;
+    }
+
+    @Transactional
+    public Contact save(Contact contact) {
+        log.info("Entered in ContactDAOImpl.save()");
+        sessionFactory.getCurrentSession().saveOrUpdate(contact);
+        log.info("Contact saved id:" + contact.getId());
+        return contact; 
+
+    }
+
+    @Transactional
+    public void delete(Contact contact) {
+        sessionFactory.getCurrentSession().delete(contact);
+        log.info("Contact removed id:" + contact.getId());
     }
 
 

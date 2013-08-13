@@ -5,16 +5,20 @@ import static javax.persistence.GenerationType.IDENTITY;
 import java.io.Serializable;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -27,16 +31,17 @@ import javax.persistence.Version;
 
 
 
+
 @Entity
 @Table(name="CONTACT")
 @NamedQueries({
     @NamedQuery(
       name="Contact.getContactsWithDetail",
-      query="select distinct c from Contact c left join fetch c.telephons t"),
+      query="select distinct c from Contact c left join fetch c.telephons t left join fetch c.hobbies h"),
     
-    /*@NamedQuery(
-            name="Contact.findById",
-            query="select distinct c from Contact c left join fetch c.contactTelDetails t left join fetch c.hobbies h where c.id=:id")*/
+    @NamedQuery(
+            name="Contact.getContactById",
+            query="select distinct c from Contact c left join fetch c.telephons t left join fetch c.hobbies h where c.id=:id")
  })
 public class Contact implements Serializable {
     /**
@@ -50,13 +55,24 @@ public class Contact implements Serializable {
     private String lastName;
     private Date birthDate;
     private int version;
-    private Set<Telephon> telephons = new HashSet<Telephon>();
+    private List<Telephon> telephons = new ArrayList<Telephon>();
+    
+    private Set<Hobby> hobbies = new HashSet<Hobby>();
 
+    @ManyToMany
+    @JoinTable(name="CONTACT_HOBBY", joinColumns = @JoinColumn(name="CONTACT_ID"), inverseJoinColumns = @JoinColumn(name="HOBBY_ID"))
+    public Set<Hobby> getHobbies() {
+        return hobbies;
+    }
+    public void setHobbies(Set<Hobby> hobbies) {
+        this.hobbies = hobbies;
+    }
+    
     @OneToMany(mappedBy="contact", cascade=CascadeType.ALL, orphanRemoval=true/*, fetch=FetchType.EAGER*/)
-    public Set<Telephon> getTelephons() {
+    public List<Telephon> getTelephons() {
         return telephons;
     }
-    public void setTelephons(Set<Telephon> telephons) {
+    public void setTelephons(List<Telephon> telephons) {
         this.telephons = telephons;
     }
     
@@ -103,14 +119,22 @@ public class Contact implements Serializable {
     }
   
 
+  
     @Override
     public String toString() {
         return "Contact [id=" + id + ", firstName=" + firstName + ", lastName="
                 + lastName + ", birthDate=" + birthDate + ", version="
-                + version + ", telephons=" + telephons + "]";
+                + version + ", telephons=" + telephons + ", hobbies=" + hobbies
+                + "]";
     }
     public void setVersion(int version) {
         this.version = version;
+    }
+    
+    public void addTelephon(Telephon telephon){
+        
+        telephon.setContact(this);
+        getTelephons().add(telephon);
     }
 
 }

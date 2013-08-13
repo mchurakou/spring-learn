@@ -4,13 +4,19 @@ package com.mikalai.finals.domain;
 import static javax.persistence.GenerationType.IDENTITY;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
+
 
 
 @Entity
@@ -26,8 +32,18 @@ public class Hobby implements Serializable {
     private Long id;
     private String name;
     private int version;
+    private Set<Contact> contacts = new HashSet<Contact>();
     
-    
+    @ManyToMany
+    @JoinTable(name="CONTACT_HOBBY", joinColumns = @JoinColumn(name="HOBBY_ID"),    inverseJoinColumns = @JoinColumn(name="CONTACT_ID"))
+    public Set<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(Set<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     @Column(name = "ID")
