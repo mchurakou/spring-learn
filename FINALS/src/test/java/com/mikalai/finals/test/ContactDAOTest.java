@@ -2,7 +2,10 @@ package com.mikalai.finals.test;
 
 
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.mikalai.finals.dao.ContactDAO;
 import com.mikalai.finals.domain.Contact;
 import com.mikalai.finals.domain.Hobby;
+import com.mikalai.finals.domain.Telephon;
 
 
 
@@ -54,42 +58,59 @@ public class ContactDAOTest {
         Assert.assertNotNull(contacts);
         Assert.assertTrue(contacts.size() > 0);
     }
+    
+    @Test
+    @Transactional
+    public void testGetContacById() throws Exception {
+        Contact contact = contactDAO.getContactById(1L);
+        
+        Assert.assertNotNull(contact);
+        Assert.assertNotNull(contact.getFirstName());
+        Assert.assertNotNull(contact.getLastName());
 
-	/*@Test
-	@Transactional
-	public void testSaveAndGet() throws Exception {
-		Session session = sessionFactory.getCurrentSession();
-		Order order = new Order();
-		order.getItems().add(new Item());
-		session.save(order);
-		session.flush();
-		// Otherwise the query returns the existing order (and we didn't set the
-		// parent in the item)...
-		session.clear();
-		Order other = (Order) session.get(Order.class, order.getId());
-		assertEquals(1, other.getItems().size());
-		assertEquals(other, other.getItems().iterator().next().getOrder());
-	}
+    }
 
 	@Test
 	@Transactional
-	public void testSaveAndFind() throws Exception {
-		Session session = sessionFactory.getCurrentSession();
-		Order order = new Order();
-		Item item = new Item();
-		item.setProduct("foo");
-		order.getItems().add(item);
-		session.save(order);
-		session.flush();
-		// Otherwise the query returns the existing order (and we didn't set the
-		// parent in the item)...
-		session.clear();
-		Order other = (Order) session
-				.createQuery( "select o from Order o join o.items i where i.product=:product")
-				.setString("product", "foo").uniqueResult();
-		assertEquals(1, other.getItems().size());
-		assertEquals(other, other.getItems().iterator().next().getOrder());
-	}*/
+	public void testSaveAndGet() throws Exception {
+		
+	    Contact newContact =  new Contact();
+        newContact.setFirstName("NEWfirst");
+        newContact.setLastName("newLast");
+        newContact.setBirthDate(new Date());
+        
+        Telephon telephon = new Telephon();
+        telephon.setTelNumber("111");
+        telephon.setTelType("home");
+
+        newContact.addTelephon(telephon);
+
+        
+        contactDAO.save(newContact);
+        
+        newContact = contactDAO.getContactById(newContact.getId());
+        
+        Assert.assertEquals(1, newContact.getTelephons().size());
+        Assert.assertTrue(newContact.getTelephons().get(0).equals(telephon));
+
+	}
+	
+	@Test
+    @Transactional
+    public void testDelete() throws Exception {
+        
+
+        Contact contact = contactDAO.getContactById(1L);
+
+        contactDAO.delete(contact);
+        
+        contact = contactDAO.getContactById(contact.getId());
+        Assert.assertNull(contact);
+
+
+    }
+
+
 
     
     public ContactDAO getContactDAO() {

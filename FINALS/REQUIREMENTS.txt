@@ -1,6 +1,6 @@
 +SQL schema
 +SQL data
--domain objects
++domain objects
 -DAO (HIBERNATE) and connection pool
 -logging
 -TESTS

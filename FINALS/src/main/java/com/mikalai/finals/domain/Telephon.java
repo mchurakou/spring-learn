@@ -54,6 +54,42 @@ public class Telephon implements Serializable {
         return "Telephon [id=" + id + ", telType=" + telType + ", telNumber="
                 + telNumber + ", version=" + version + "]";
     }
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result
+                + ((telNumber == null) ? 0 : telNumber.hashCode());
+        result = prime * result + ((telType == null) ? 0 : telType.hashCode());
+        return result;
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Telephon other = (Telephon) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (telNumber == null) {
+            if (other.telNumber != null)
+                return false;
+        } else if (!telNumber.equals(other.telNumber))
+            return false;
+        if (telType == null) {
+            if (other.telType != null)
+                return false;
+        } else if (!telType.equals(other.telType))
+            return false;
+        return true;
+    }
     public static long getSerialversionuid() {
         return serialVersionUID;
     }
