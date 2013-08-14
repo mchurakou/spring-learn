@@ -1,21 +1,23 @@
 +SQL schema
 +SQL data
 +domain objects
--DAO (HIBERNATE) and connection pool
++DAO (HIBERNATE)
++connection pool, property files, MYSQL and H2 перключать профилями, конфигурация в разных файлах
+-db audit
+-Service layer, trans                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                actions
 -logging
--TESTS
--Service layer, transactions
 -MVC
 -REST
--MYSQL and H2 перключать профилями
+-i18n
 -Tiles
 -Validation
+-security
+-TESTS
 -file upload
 -text editor
 -grid
--i18n
--property files
--security
--db audit
+
+
+
 
 

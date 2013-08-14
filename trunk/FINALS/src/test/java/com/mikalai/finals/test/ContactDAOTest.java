@@ -3,18 +3,21 @@ package com.mikalai.finals.test;
 
 
 import java.util.Date;
-import java.util.HashSet;
+
+
 import java.util.List;
-import java.util.Set;
+
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
+
 
 import com.mikalai.finals.dao.ContactDAO;
 import com.mikalai.finals.domain.Contact;
@@ -25,6 +28,7 @@ import com.mikalai.finals.domain.Telephon;
 
 @ContextConfiguration(locations={"classpath:/spring/app-context.xml"})
 @RunWith(SpringJUnit4ClassRunner.class)
+@ActiveProfiles("h2")
 public class ContactDAOTest {
 
 	@Autowired
