@@ -15,6 +15,7 @@ public class Test {
 
     public static void main(String[] args) {
         GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
+        ctx.getEnvironment().setActiveProfiles("h2");
         ctx.load("classpath:spring/app-context.xml");
         ctx.refresh();
         
@@ -43,7 +44,7 @@ public class Test {
         System.out.println("Contact1:" + contact);
         
         
-        contact.setFirstName("TEST");
+        contact.setFirstName("TEST1");
         contactDAO.save(contact);
                 
         contact = contactDAO.getContactById(1L);
