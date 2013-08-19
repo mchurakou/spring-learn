@@ -11,6 +11,7 @@ import com.mikalai.finals.domain.Hobby;
 
 
 
+
 public class Test {
 
     public static void main(String[] args) {
@@ -21,10 +22,8 @@ public class Test {
         
         ContactDAO contactDAO = ctx.getBean("contactDAO", ContactDAO.class);
         
+        System.out.println("ALL HOBBIES:");
         List<Hobby> hobbies = contactDAO.getHobbies();
-        
-        System.out.println("Hobbies:");
-        
         for (Hobby h : hobbies){
             System.out.println(h);
         }
@@ -51,17 +50,25 @@ public class Test {
         System.out.println("Contact2:" + contact);
         
         Contact newContact =  new Contact();
-        newContact.setFirstName("NEWfirst");
-        newContact.setLastName("newLast");
+        newContact.setFirstName("UNO1");
+        newContact.setLastName("UNO1");
         newContact.setBirthDate(new Date());
         
         contactDAO.save(newContact);
         
-        newContact = contactDAO.getContactById(newContact.getId());
-        System.out.println("NEW CONTACT:" + newContact);
+        newContact.setFirstName("DUE2");
+        newContact.setLastName("DUE2");
+        contactDAO.save(newContact);
         
-        contactDAO.delete(newContact);
+
+        
+        contactDAO.delete(contact);
         System.out.println("Deleted");
+        
+
+        
+
+        
         
         
         
