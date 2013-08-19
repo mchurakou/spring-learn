@@ -17,6 +17,7 @@ import javax.persistence.Version;
 
 
 
+
 @Entity
 @Table(name="TELEPHON")
 public class Telephon implements Serializable {

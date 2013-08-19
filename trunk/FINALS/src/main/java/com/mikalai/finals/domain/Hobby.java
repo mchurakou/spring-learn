@@ -19,7 +19,9 @@ import javax.persistence.Version;
 
 
 
+
 @Entity
+
 @Table(name = "HOBBY")
 public class Hobby implements Serializable {
 
