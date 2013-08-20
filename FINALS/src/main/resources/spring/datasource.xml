@@ -2,13 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
     xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-    xmlns:jpa="http://www.springframework.org/schema/data/jpa"
     xsi:schemaLocation="
         http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.2.xsd">
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
     
     <context:property-placeholder location="classpath:spring/dbconnection.properties" local-override="true" />
 
@@ -38,36 +36,45 @@
     
     <beans>
     
-        <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-            <property name="entityManagerFactory" ref="emf"/>
-        </bean>
-
+        <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+            <property name="sessionFactory" ref="sessionFactory"/>
+        </bean>    
+        
         <tx:annotation-driven/>
     
         <context:component-scan base-package="com.mikalai.finals.dao" />
     
-        <bean id="emf" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-            <property name="dataSource" ref="dataSource" />
-            <property name="jpaVendorAdapter">
-                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
-            </property>        
+        <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+            <property name="dataSource" ref="dataSource"/>
             <property name="packagesToScan" value="com.mikalai.finals.domain"/>
-            <property name="jpaProperties">
+            <property name="hibernateProperties">
                 <props>
-                    <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+                    <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                    <!-- <prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>-->
                     <prop key="hibernate.max_fetch_depth">3</prop>
                     <prop key="hibernate.jdbc.fetch_size">50</prop>
                     <prop key="hibernate.jdbc.batch_size">10</prop>
                     <prop key="hibernate.show_sql">true</prop>
-                </props>        
+                    <prop key="org.hibernate.envers.audit_strategy">org.hibernate.envers.strategy.ValidityAuditStrategy</prop>
+                </props>
             </property>
-        </bean>
-        
-        <jpa:auditing auditor-aware-ref="auditorAwareBean"/>
+            
+            <property name="schemaUpdate" value="true" />
+            
+            <property name="eventListeners">
+                 <map key-type="java.lang.String" value-type="org.hibernate.event.EventListeners">
+                     <entry key="post-insert" value-ref="auditEventListener"/>
+                     <entry key="post-update" value-ref="auditEventListener"/>
+                     <entry key="post-delete" value-ref="auditEventListener"/>
+                     <entry key="pre-collection-update" value-ref="auditEventListener"/>
+                     <entry key="pre-collection-remove" value-ref="auditEventListener"/>
+                     <entry key="post-collection-recreate" value-ref="auditEventListener"/>
+                 </map>
+             </property>        
+    </bean>
     
-        <bean id="auditorAwareBean" class="com.mikalai.finals.dao.audit.AuditorAwareBean"/>
-        
-       
+    <bean id="auditEventListener" class="org.hibernate.envers.event.AuditEventListener" />
+    
     
     </beans>
 

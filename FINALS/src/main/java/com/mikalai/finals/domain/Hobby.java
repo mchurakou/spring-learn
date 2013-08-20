@@ -17,11 +17,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Version;
 
+import org.hibernate.envers.*;
 
 
 
 @Entity
-
+@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
 @Table(name = "HOBBY")
 public class Hobby implements Serializable {
 
