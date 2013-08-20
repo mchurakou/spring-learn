@@ -25,14 +25,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 
-import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
-import org.springframework.data.domain.Auditable;
-
-
+import org.hibernate.envers.Audited;
 
 
 
@@ -40,9 +35,8 @@ import org.springframework.data.domain.Auditable;
 
 
 @Entity
+@Audited
 @Table(name="CONTACT")
-
-
 @NamedQueries({
     @NamedQuery(
       name="Contact.getContactsWithDetail",
@@ -52,7 +46,7 @@ import org.springframework.data.domain.Auditable;
             name="Contact.getContactById",
             query="select distinct c from Contact c left join fetch c.telephons t left join fetch c.hobbies h where c.id=:id")
  })
-public class Contact implements Serializable, Auditable<String, Long>{
+public class Contact implements Serializable {
     /**
      * 
      */
@@ -64,14 +58,6 @@ public class Contact implements Serializable, Auditable<String, Long>{
     private String lastName;
     private Date birthDate;
     private int version;
-    
- // Audit fields
-    private String createdBy;
-    private DateTime createdDate;   
-    private String lastModifiedBy;
-    private DateTime lastModifiedDate;
-    
-    
     private List<Telephon> telephons = new ArrayList<Telephon>();
     
     private Set<Hobby> hobbies = new HashSet<Hobby>();
@@ -136,63 +122,21 @@ public class Contact implements Serializable, Auditable<String, Long>{
     }
   
 
-    @Column(name="CREATED_BY")
-    public String getCreatedBy() {
-        return this.createdBy;
-    }
-    
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-    
-    @Column(name="CREATED_DATE")
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    public DateTime getCreatedDate() {
-        return createdDate;
-    }
-    public void setCreatedDate(DateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-    
-    @Column(name="LAST_MODIFIED_BY")
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
-    }
-    
-    
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-    }
-    
-    @Column(name="LAST_MODIFIED_DATE")
-    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-    public DateTime getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-    public void setLastModifiedDate(DateTime lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-   
-
-    @Transient
-    public boolean isNew() {
-        if (id == null){
-            return true;
-        } else{
-            return false;
-        }
-            
-    }
-
+  
     @Override
     public String toString() {
         return "Contact [id=" + id + ", firstName=" + firstName + ", lastName="
                 + lastName + ", birthDate=" + birthDate + ", version="
-                + version + ", createdBy=" + createdBy + ", createdDate="
-                + createdDate + ", lastModifiedBy=" + lastModifiedBy
-                + ", lastModifiedDate=" + lastModifiedDate + ", telephons="
-                + telephons + ", hobbies=" + hobbies + "]";
+                + version + ", telephons=" + telephons + ", hobbies=" + hobbies
+                + "]";
     }
+    
+  
+    public String show() {
+        return "Contact [id=" + id + ", firstName=" + firstName + ", lastName="
+                + lastName + ", birthDate=" + birthDate + ", version=" + version + "]";
+    }
+    
     public void setVersion(int version) {
         this.version = version;
     }
@@ -202,6 +146,5 @@ public class Contact implements Serializable, Auditable<String, Long>{
         telephon.setContact(this);
         getTelephons().add(telephon);
     }
-
 
 }

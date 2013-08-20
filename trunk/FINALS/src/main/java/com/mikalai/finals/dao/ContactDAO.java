@@ -16,8 +16,8 @@ public interface ContactDAO {
     public Contact getContactById(Long id);
     public Contact save(Contact contact);
     public void delete(Contact contact);
-   
-
+    
+    public List<Object []> getAuditContacts(Long id);
     
 
 }

@@ -4,8 +4,8 @@
 +DAO (HIBERNATE)
 +connection pool, property files, MYSQL and H2 перключать профилями, конфигурация в разных файлах
 -db audit
--logging
 -Service layer, trans                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                actions
+-logging
 -MVC
 -REST
 -i18n

@@ -112,7 +112,6 @@ public class ContactDAOTest {
         Assert.assertNull(contact);
 
 
-
     }
 
 
