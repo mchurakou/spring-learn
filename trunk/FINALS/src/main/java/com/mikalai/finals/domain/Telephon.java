@@ -20,7 +20,7 @@ import org.hibernate.envers.*;
 
 
 @Entity
-@Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+@Audited
 @Table(name="TELEPHON")
 public class Telephon implements Serializable {
     /**

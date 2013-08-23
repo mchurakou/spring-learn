@@ -37,7 +37,7 @@ public class ContactDAOTest {
 
 
     @Test
-	@Transactional
+	
 	public void testAllHobbiess() throws Exception {
 	    List<Hobby> hobbies = contactDAO.getHobbies();
 		
@@ -45,42 +45,15 @@ public class ContactDAOTest {
 		Assert.assertTrue(hobbies.size() > 0);
 	}
     
-    @Test
-    @Transactional
-    public void testAllContacts() throws Exception {
-        List<Contact> contacts = contactDAO.getContacts();
-        
-        Assert.assertNotNull(contacts);
-        Assert.assertTrue(contacts.size() > 0);
-    }
+ 
     
-    @Test
-    @Transactional
-    public void testAllContactsWithDetail() throws Exception {
-        List<Contact> contacts = contactDAO.getContactsWithDetail();
-        
-        Assert.assertNotNull(contacts);
-        Assert.assertTrue(contacts.size() > 0);
-    }
-    
-    @Test
-    @Transactional
-    public void testGetContacById() throws Exception {
-        Contact contact = contactDAO.getContactById(1L);
-        
-        Assert.assertNotNull(contact);
-        Assert.assertNotNull(contact.getFirstName());
-        Assert.assertNotNull(contact.getLastName());
-
-    }
-
 	@Test
-	@Transactional
+	
 	public void testSaveAndGet() throws Exception {
 		
 	    Contact newContact =  new Contact();
-        newContact.setFirstName("NEWfirst");
-        newContact.setLastName("newLast");
+        newContact.setFirstName("TEST");
+        newContact.setLastName("TEST");
         newContact.setBirthDate(new Date());
         
         Telephon telephon = new Telephon();
@@ -100,16 +73,25 @@ public class ContactDAOTest {
 	}
 	
 	@Test
-    @Transactional
     public void testDelete() throws Exception {
+        
+	    Contact newContact =  new Contact();
+        newContact.setFirstName("TEST_DELETE");
+        newContact.setLastName("TEST_DELETE");
+        newContact.setBirthDate(new Date());
         
 
         Contact contact = contactDAO.getContactById(1L);
 
+        long id = contact.getId();
         contactDAO.delete(contact);
         
         contact = contactDAO.getContactById(contact.getId());
         Assert.assertNull(contact);
+        
+        List<Object []> audit = contactDAO.getAuditContacts(id);
+        
+        Assert.assertTrue(audit.size() > 0);
 
 
     }

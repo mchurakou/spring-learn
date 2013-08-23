@@ -19,7 +19,7 @@ public class Test {
 
     public static void main(String[] args) throws InterruptedException {
         GenericXmlApplicationContext ctx = new GenericXmlApplicationContext();
-        ctx.getEnvironment().setActiveProfiles("mysql");
+        ctx.getEnvironment().setActiveProfiles("h2");
         ctx.load("classpath:spring/app-context.xml");
         ctx.refresh();
         
@@ -51,10 +51,10 @@ public class Test {
         
         if (contact != null){
         
-        contact.setFirstName("TEST1");
-        contactDAO.save(contact);
-        contact = contactDAO.getContactById(1L);
-        System.out.println("Contact2:" + contact);
+            contact.setFirstName("TEST1");
+            contactDAO.save(contact);
+            contact = contactDAO.getContactById(1L);
+            System.out.println("Contact2:" + contact);
         }
         
        
@@ -64,11 +64,11 @@ public class Test {
         newContact.setLastName("DUE");
         newContact.setBirthDate(new Date());
         contactDAO.save(newContact);
-        
+        Thread.sleep(1000);
         newContact.setFirstName("MODIFIED");
         contactDAO.save(newContact);
         
-        Thread.sleep(5000);
+        Thread.sleep(3000);
         
         newContact = contactDAO.getContactById(newContact.getId());
         System.out.println("NEW CONTACT:" + newContact);
@@ -80,14 +80,15 @@ public class Test {
         System.out.println("Audit:");
         
         
-        List<Object []> audit = contactDAO.getAuditContacts(1L);
+        List<Object []> audit = contactDAO.getAuditContacts(newContact.getId());
         
         for (Object[] a : audit){
             Contact c = (Contact) a[0];
             RevisionEntity re = (RevisionEntity) a[1];
             RevisionType rt = (RevisionType) a[2];
             
-            System.out.println(c.show() + " | " + re.getUser() + "|" + rt.name() + "|" + re.getRevisionDate());
+
+            System.out.println(c.show() + " | " + re.getUser() + "|" + rt.name() + "|" + re.getRevisionDate() + "|" + new Date(re.getTimestamp()));
         }
         System.out.println("Finish");
         
