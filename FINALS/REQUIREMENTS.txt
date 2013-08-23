@@ -3,16 +3,16 @@
 +domain objects
 +DAO (HIBERNATE)
 +connection pool, property files, MYSQL and H2 перключать профилями, конфигурация в разных файлах
--db audit
--Service layer, trans                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                actions
++db audit
++TESTS
 -logging
+-Service layer, trans                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                actions
 -MVC
 -REST
 -i18n
 -Tiles
 -Validation
 -security
--TESTS
 -file upload
 -text editor
 -grid
