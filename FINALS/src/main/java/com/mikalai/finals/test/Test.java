@@ -12,6 +12,7 @@ import com.mikalai.finals.dao.ContactDAO;
 import com.mikalai.finals.domain.Contact;
 import com.mikalai.finals.domain.Hobby;
 import com.mikalai.finals.domain.audit.RevisionEntity;
+import com.mikalai.finals.service.ContactService;
 
 
 
@@ -25,9 +26,9 @@ public class Test {
         
                 
         
-        ContactDAO contactDAO = ctx.getBean("contactDAO", ContactDAO.class);
+        ContactService contactService = ctx.getBean("contactService", ContactService.class);
         
-        List<Hobby> hobbies = contactDAO.getHobbies();
+        List<Hobby> hobbies = contactService.getHobbies();
         
         System.out.println("Hobbies:");
         
@@ -35,7 +36,7 @@ public class Test {
             System.out.println(h);
         }
         
-        List<Contact> contacts = contactDAO.getContactsWithDetail();
+        List<Contact> contacts = contactService.getContactsWithDetail();
         //List<Contact> contacts = contactDAO.getContacts();
         
         
@@ -46,14 +47,14 @@ public class Test {
         }
         
         
-        Contact contact = contactDAO.getContactById(1L);
+        Contact contact = contactService.getContactById(1L);
         System.out.println("Contact1:" + contact);
         
         if (contact != null){
         
             contact.setFirstName("TEST1");
-            contactDAO.save(contact);
-            contact = contactDAO.getContactById(1L);
+            contactService.save(contact);
+            contact = contactService.getContactById(1L);
             System.out.println("Contact2:" + contact);
         }
         
@@ -63,24 +64,24 @@ public class Test {
         newContact.setFirstName("UNO");
         newContact.setLastName("DUE");
         newContact.setBirthDate(new Date());
-        contactDAO.save(newContact);
+        contactService.save(newContact);
         Thread.sleep(1000);
         newContact.setFirstName("MODIFIED");
-        contactDAO.save(newContact);
+        contactService.save(newContact);
         
         Thread.sleep(3000);
         
-        newContact = contactDAO.getContactById(newContact.getId());
+        newContact = contactService.getContactById(newContact.getId());
         System.out.println("NEW CONTACT:" + newContact);
         
-        contactDAO.delete(newContact);
+        contactService.delete(newContact);
         System.out.println("Deleted");
         
         
         System.out.println("Audit:");
         
         
-        List<Object []> audit = contactDAO.getAuditContacts(newContact.getId());
+        List<Object []> audit = contactService.getAuditContacts(newContact.getId());
         
         for (Object[] a : audit){
             Contact c = (Contact) a[0];

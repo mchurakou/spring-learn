@@ -5,8 +5,8 @@
 +connection pool, property files, MYSQL and H2 перключать профилями, конфигурация в разных файлах
 +db audit
 +TESTS
--logging
--Service layer, trans                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                actions
++Service layer
+-logging                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ctions
 -MVC
 -REST
 -i18n
