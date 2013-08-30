@@ -15,7 +15,7 @@ public interface ContactService {
     public List<Contact> getContactsWithDetail();
     public Contact getContactById(Long id);
     public Contact save(Contact contact);
-    public void delete(Contact contact);
+    public void delete(Long id);
     
     public List<Object []> getAuditContacts(Long id);
     

@@ -74,7 +74,7 @@ public class Test {
         newContact = contactService.getContactById(newContact.getId());
         System.out.println("NEW CONTACT:" + newContact);
         
-        contactService.delete(newContact);
+        contactService.delete(newContact.getId());
         System.out.println("Deleted");
         
         
