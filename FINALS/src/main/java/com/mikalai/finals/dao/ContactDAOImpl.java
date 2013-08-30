@@ -54,7 +54,7 @@ public class ContactDAOImpl implements ContactDAO {
     @Transactional(readOnly=true)
     public List<Contact> getContactsWithDetail() {
         List<Contact> contacts = sessionFactory.getCurrentSession().getNamedQuery("Contact.getContactsWithDetail").list();
-        logger.info("Retrived count of contacts= " + contacts.size());
+        logger.info("Retrived count of contacts with detail= " + contacts.size());
         return contacts;
     }
 
@@ -65,7 +65,7 @@ public class ContactDAOImpl implements ContactDAO {
         return contact;
     }
 
-    @Transactional
+    
     public Contact save(Contact contact) {
         sessionFactory.getCurrentSession().saveOrUpdate(contact);
         logger.info("Contact saved id:" + contact.getId());
@@ -73,7 +73,7 @@ public class ContactDAOImpl implements ContactDAO {
 
     }
 
-    @Transactional
+    
     public void delete(Long id) {
         Contact contact = (Contact) sessionFactory.getCurrentSession().get(Contact.class, id);
         sessionFactory.getCurrentSession().delete(contact);
@@ -81,7 +81,7 @@ public class ContactDAOImpl implements ContactDAO {
         
     }
 
-    @Transactional
+    @Transactional(readOnly=true)
     public List<Object []> getAuditContacts(Long id) {
         AuditReader reader =  AuditReaderFactory.get( sessionFactory.getCurrentSession());
         AuditQueryCreator queryCreator = reader.createQuery();
