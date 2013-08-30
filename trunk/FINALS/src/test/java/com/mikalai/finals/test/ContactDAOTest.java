@@ -79,15 +79,13 @@ public class ContactDAOTest {
         newContact.setFirstName("TEST_DELETE");
         newContact.setLastName("TEST_DELETE");
         newContact.setBirthDate(new Date());
-        
+        contactDAO.save(newContact);
 
-        Contact contact = contactDAO.getContactById(1L);
-
-        long id = contact.getId();
-        contactDAO.delete(contact);
+        Long id =  newContact.getId();
+        contactDAO.delete(newContact.getId());
         
-        contact = contactDAO.getContactById(contact.getId());
-        Assert.assertNull(contact);
+        newContact = contactDAO.getContactById(newContact.getId());
+        Assert.assertNull(newContact);
         
         List<Object []> audit = contactDAO.getAuditContacts(id);
         

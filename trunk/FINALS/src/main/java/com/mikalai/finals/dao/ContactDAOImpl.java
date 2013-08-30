@@ -4,13 +4,13 @@ import java.util.List;
 
 
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.envers.AuditReader;
 import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
-import org.hibernate.envers.query.AuditQuery;
+
 import org.hibernate.envers.query.AuditQueryCreator;
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
@@ -24,7 +24,7 @@ import com.mikalai.finals.domain.Hobby;
 @Transactional
 public class ContactDAOImpl implements ContactDAO {
 
-    private Log log = LogFactory.getLog(ContactDAOImpl.class);
+    private static final Logger logger = Logger.getLogger(ContactDAOImpl.class);
     private SessionFactory sessionFactory;
     
     public SessionFactory getSessionFactory() {
@@ -39,64 +39,54 @@ public class ContactDAOImpl implements ContactDAO {
     
     @Transactional(readOnly=true)
     public List<Hobby> getHobbies() {
-        log.info("Entered in ContactDAOImpl.getHobbies()");
         List<Hobby> hobbies = sessionFactory.getCurrentSession().createQuery("FROM Hobby h").list();
-        log.info("Retrived count of hobbies= " + hobbies.size());
+        logger.info("Retrived count of hobbies= " + hobbies.size());
         return hobbies;
     }
 
     @Transactional(readOnly=true)
     public List<Contact> getContacts() {
-        log.info("Entered in ContactDAOImpl.getContacts()");
         List<Contact> contacts = sessionFactory.getCurrentSession().createQuery("FROM Contact c").list();
-        log.info("Retrived count of contacts= " + contacts.size());
+        logger.info("Retrived count of contacts= " + contacts.size());
         return contacts;
     }
 
     @Transactional(readOnly=true)
     public List<Contact> getContactsWithDetail() {
-        log.info("Entered in ContactDAOImpl.getContactsWithDetail()");
         List<Contact> contacts = sessionFactory.getCurrentSession().getNamedQuery("Contact.getContactsWithDetail").list();
-        log.info("Retrived count of contacts= " + contacts.size());
+        logger.info("Retrived count of contacts= " + contacts.size());
         return contacts;
     }
 
     @Transactional(readOnly=true)
     public Contact getContactById(Long id) {
-        log.info("Entered in ContactDAOImpl.getContactById()");
         Contact contact = (Contact) sessionFactory.getCurrentSession().getNamedQuery("Contact.getContactById").setParameter("id", id).uniqueResult();
-        log.info("Retrived contact: " + contact);
+        logger.info("Retrived contact: " + contact);
         return contact;
     }
 
     @Transactional
     public Contact save(Contact contact) {
-        log.info("Entered in ContactDAOImpl.save()");
         sessionFactory.getCurrentSession().saveOrUpdate(contact);
-        log.info("Contact saved id:" + contact.getId());
+        logger.info("Contact saved id:" + contact.getId());
         return contact; 
 
     }
 
     @Transactional
-    public void delete(Contact contact) {
+    public void delete(Long id) {
+        Contact contact = (Contact) sessionFactory.getCurrentSession().get(Contact.class, id);
         sessionFactory.getCurrentSession().delete(contact);
-        log.info("Contact removed id:" + contact.getId());
+        logger.info("Contact removed id:" + id);
+        
     }
 
     @Transactional
     public List<Object []> getAuditContacts(Long id) {
-       
-        
         AuditReader reader =  AuditReaderFactory.get( sessionFactory.getCurrentSession());
-
-        
         AuditQueryCreator queryCreator = reader.createQuery();
         List<Object []> result = queryCreator.forRevisionsOfEntity(Contact.class, false, true).add(AuditEntity.id().eq(id)).getResultList();
-        
-        
-
-        
+        logger.info("Audit records:" + result.size());
         return result;
 
     }

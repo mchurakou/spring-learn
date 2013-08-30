@@ -44,8 +44,8 @@ public class ContactServiceImpl implements ContactService {
     }
 
    
-    public void delete(Contact contact) {
-        contactDAO.delete(contact);
+    public void delete(Long id) {
+        contactDAO.delete(id);
 
     }
 
