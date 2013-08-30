@@ -11,7 +11,7 @@
     
 
     <beans profile="h2">
-        <context:property-placeholder location="classpath:spring/h2.properties" local-override="true" />
+        <context:property-placeholder location="classpath:properties/h2.properties" local-override="true" />
     
         <jdbc:embedded-database id="dataSource" type="H2">
             <jdbc:script location="classpath:sql/schema.sql"/>
@@ -20,7 +20,7 @@
     </beans>
     
     <beans profile="mysql">
-        <context:property-placeholder location="classpath:spring/mysql.properties" local-override="true" />
+        <context:property-placeholder location="classpath:properties/mysql.properties" local-override="true" />
     
         <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" >
             <property name="driverClassName">
