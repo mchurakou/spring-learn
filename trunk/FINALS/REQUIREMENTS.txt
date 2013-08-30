@@ -6,10 +6,10 @@
 +db audit
 +TESTS
 +Service layer
-+logging                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ctions
++logging 
++i18n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ctions
 -MVC
 -REST
--i18n
 -Tiles
 -Validation
 -security

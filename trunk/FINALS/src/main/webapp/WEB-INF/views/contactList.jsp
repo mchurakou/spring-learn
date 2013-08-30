@@ -53,7 +53,7 @@
 	      <spring:message code="contact.list.page.no.contacts"/> 
 	   </c:otherwise>
 	</c:choose>
-	
-    <a href="?lang=en">EN</a> | <a href="?lang=ru">RU</a>
+	<hr/>
+    <a href="?lang=en_US">EN</a> | <a href="?lang=ru_RU">RU</a>
 </body>
 </html>
