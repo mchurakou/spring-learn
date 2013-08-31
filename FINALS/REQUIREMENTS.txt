@@ -7,10 +7,10 @@
 +TESTS
 +Service layer
 +logging 
-+i18n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ctions
++i18n  
++Tiles                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ctions
 -MVC
 -REST
--Tiles
 -Validation
 -security
 -file upload
