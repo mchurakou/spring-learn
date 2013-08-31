@@ -28,7 +28,7 @@ public class ContactController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
     public String enter(Locale locale, Model model) {
-        logger.info("Redirect to contact list");
+        logger.info("Forward to contact list");
         return "redirect:contacts";
     }
 	
@@ -42,7 +42,7 @@ public class ContactController {
 		logger.info("Contacts for showing: " + contacts.size());
 		
 		logger.info("show contactList view");
-		return "contactList";
+		return "contact/list";
 	}
 	
 }
