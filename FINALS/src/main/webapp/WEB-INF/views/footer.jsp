@@ -3,5 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
 <div>
-	<a href="?lang=en_US"><spring:message code="contact.list.page.en"/></a> | <a href="?lang=ru_RU"><spring:message code="contact.list.page.ru"/></a>
+	<a href="<spring:url value="/contacts"/>"><spring:message code="contact.list.page.home"/></a> |
+	<a href="?lang=en_US"><spring:message code="contact.list.page.en"/></a> |
+	<a href="?lang=ru_RU"><spring:message code="contact.list.page.ru"/></a>
 </div>

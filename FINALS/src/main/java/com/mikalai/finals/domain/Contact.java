@@ -28,6 +28,8 @@ import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.hibernate.envers.Audited;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 
 
@@ -107,6 +109,7 @@ public class Contact implements Serializable {
     
     @Temporal(TemporalType.DATE)
     @Column(name="BIRTH_DATE")
+    @DateTimeFormat(iso=ISO.DATE)
     public Date getBirthDate() {
         return birthDate;
     }

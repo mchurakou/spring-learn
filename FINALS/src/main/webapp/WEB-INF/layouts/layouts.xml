@@ -15,11 +15,13 @@
         <put-attribute name="body"
             value="/WEB-INF/views/contact_list.jsp" />
     </definition>
-    <!-- <definition extends="default" name="contacts/show">
+    
+    <definition extends="default" name="contact/show">
         <put-attribute name="body"
-            value="/WEB-INF/views/contacts/show.jspx" />
+            value="/WEB-INF/views/contact.jsp" />
     </definition>
-    <definition extends="default" name="contacts/update">
+    
+    <!-- <definition extends="default" name="contacts/update">
         <put-attribute name="body"
             value="/WEB-INF/views/contacts/edit.jspx" />
     </definition>
