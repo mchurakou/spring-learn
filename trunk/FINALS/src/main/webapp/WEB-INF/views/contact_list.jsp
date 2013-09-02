@@ -2,6 +2,10 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 
+
+<div>
+	<spring:message code="contact.list.page.list.of.contacts"/>
+</div>
 <div>	
 	<c:choose> 
 	   <c:when test="${not empty contacts}">
@@ -23,16 +27,18 @@
 	           <c:forEach items="${contacts}" var="contact" varStatus="status">
 	               <tr>
 	                   <td>
-	                       ${status.index} ${status.count}
+	                       ${status.count}
 	                   </td>
 	                   <td>
-	                       ${contact.fistName}
+	                   	   <a href="contacts/${contact.id}">
+	                       		${contact.firstName}
+	                       </a>
 	                   </td>
 	                   <td>
 	                       ${contact.lastName}
 	                   </td>
 	                   <td>
-	                        ${contact.birstDate}
+	                        ${contact.birthDate}
 	                   </td>
                     </tr>
 	           </c:forEach>

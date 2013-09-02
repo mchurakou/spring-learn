@@ -16,7 +16,7 @@
              First profile: mysql - MySQL DB
                              h2 - H2 database
         -->
-        <param-value>h2</param-value>
+        <param-value>mysql</param-value>
     </context-param> 
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
