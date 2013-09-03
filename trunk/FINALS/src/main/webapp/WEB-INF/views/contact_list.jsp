@@ -40,6 +40,10 @@
 	                   <td>
 	                        ${contact.birthDate}
 	                   </td>
+	                   <td>
+	                       <a href="contacts/${contact.id}/delete">delete</a>
+	                   </td>
+	                   
                     </tr>
 	           </c:forEach>
 	       </table>
