@@ -26,8 +26,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
+import javax.validation.constraints.Size;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -92,6 +95,8 @@ public class Contact implements Serializable {
     }
     
     @Column(name="FIRST_NAME")
+    @NotEmpty(message="{validation.firstname.NotEmpty.message}")
+    @Size(min=1, max=20, message="{validation.firstname.Size.message}")
     public String getFirstName() {
         return firstName;
     }
@@ -100,6 +105,8 @@ public class Contact implements Serializable {
     }
     
     @Column(name="LAST_NAME")
+    @NotEmpty(message="{validation.lastname.NotEmpty.message}")
+    @Size(min=1, max=20, message="{validation.lastname.Size.message}")
     public String getLastName() {
         return lastName;
     }

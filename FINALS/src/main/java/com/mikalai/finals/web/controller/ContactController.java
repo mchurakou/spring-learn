@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +71,7 @@ public class ContactController {
 	}
 	
 	@RequestMapping(value = "/contacts/{id}",  method = RequestMethod.POST)
-	public String saveContact(Contact contact, BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
+	public String saveContact(@Valid Contact contact, BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
 		logger.info("Save contact");
 		
 		if (bindingResult.hasErrors()){
@@ -101,13 +102,13 @@ public class ContactController {
 	}
 	
 	@RequestMapping(value = "/contacts/add",  method = RequestMethod.POST)
-	public String addContact(Contact contact, BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
+	public String addContact(@Valid Contact contact, BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
 		logger.info("Add contact");
 		
 		if (bindingResult.hasErrors()){
 			String errorMessage = messageSource.getMessage("error.contact.save", new Object[]{},locale);
 			model.addAttribute("message", errorMessage);
-			return "contact/add";
+			return "contact/show";
 		}
 		
 		model.asMap().clear();
@@ -120,6 +121,17 @@ public class ContactController {
 
 		return "redirect:/contacts/" + contact.getId();
 	}
+	
+	@RequestMapping(value = "/contacts/{id}/delete",  method = RequestMethod.GET)
+    public String deleteContact(@PathVariable("id") Long id,Locale locale, Model model) {
+        logger.info("User try to delete contact");
+        
+        contactService.delete(id);
+
+        logger.info("Contact was deleted: " + id);
+
+        return "redirect:/contacts";
+    }
 	
 	public MessageSource getMessageSource() {
 		return messageSource;

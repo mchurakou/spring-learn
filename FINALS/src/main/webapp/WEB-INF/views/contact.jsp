@@ -60,7 +60,7 @@
                     </form:label> 
                    </td>
                    <td>
-                   		<form:input path="birthDate" />
+                        <input value="${contact.birthDate}" name="birthDate"/>
                    		<div>
                    			<form:errors path="birthDate" cssClass="error"/>
                    		</div>

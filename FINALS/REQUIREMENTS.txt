@@ -9,8 +9,9 @@
 +logging 
 +i18n  
 +Tiles                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              ctions
--MVC, REST
--Validation
++REST
++Validation
+-MVC
 -security
 -file upload
 -text editor
