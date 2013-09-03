@@ -3,11 +3,16 @@ package com.mikalai.finals.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+
 
 
 import com.mikalai.finals.dao.ContactDAO;
 import com.mikalai.finals.domain.Contact;
 import com.mikalai.finals.domain.Hobby;
+import com.mikalai.finals.web.form.ContactGrid;
+import com.mikalai.finals.web.form.PageRequest;
+
 import org.springframework.stereotype.Service;
 
 @Service("contactService")
@@ -61,5 +66,11 @@ public class ContactServiceImpl implements ContactService {
     public void setContactDAO(ContactDAO contactDAO) {
         this.contactDAO = contactDAO;
     }
+
+	@Override
+	public ContactGrid findAllByPage(PageRequest pageRequest) {
+		ContactGrid contactGrid = contactDAO.findAllByPage(pageRequest);
+		return contactGrid;
+	}
 
 }

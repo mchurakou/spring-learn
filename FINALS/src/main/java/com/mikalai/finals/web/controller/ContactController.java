@@ -11,16 +11,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mikalai.finals.domain.Contact;
 import com.mikalai.finals.service.ContactService;
+import com.mikalai.finals.web.form.ContactGrid;
+import com.mikalai.finals.web.form.PageRequest;
+
 
 /**
  * Handles requests for the application home page.
@@ -132,6 +138,43 @@ public class ContactController {
 
         return "redirect:/contacts";
     }
+	
+	@RequestMapping(value = "/contacts/listgrid", method = RequestMethod.GET, produces="application/json")
+	@ResponseBody
+	public ContactGrid listGrid(@RequestParam(value = "page", required = false) Integer page,
+			@RequestParam(value = "rows", required = false) Integer rows,
+			@RequestParam(value = "sidx", required = false) String sortBy,
+			@RequestParam(value = "sord", required = false) String order) {
+		
+		logger.info("Listing contacts for grid with page: {}, rows: {}", page, rows);
+		logger.info("Listing contacts for grid with sort: {}, order: {}", sortBy, order);
+		
+		
+		
+		
+
+		PageRequest pageRequest = new PageRequest();
+		pageRequest.setPageNumber(page - 1);
+		pageRequest.setPageSize(rows);
+		if (sortBy != null && order != null) {
+			if (order.equals("desc")) {
+				pageRequest.setDirection(PageRequest.Direction.DESC);
+			} else{
+				pageRequest.setDirection(PageRequest.Direction.ASC);
+			}
+			pageRequest.setSortField(sortBy);
+		}
+		
+		
+		
+		
+	
+				
+		ContactGrid contactGrid = contactService.findAllByPage(pageRequest);
+
+		logger.info("Retrived contacts size:" + contactGrid.getContactData().size());
+		return contactGrid;
+	}	
 	
 	public MessageSource getMessageSource() {
 		return messageSource;

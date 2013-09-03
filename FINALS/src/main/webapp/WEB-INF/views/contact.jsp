@@ -60,7 +60,7 @@
                     </form:label> 
                    </td>
                    <td>
-                        <input value="${contact.birthDate}" name="birthDate"/>
+                        <input value="${contact.birthDate}" name="birthDate" class="datepicker" readonly='true' />
                    		<div>
                    			<form:errors path="birthDate" cssClass="error"/>
                    		</div>
