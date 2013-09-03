@@ -27,10 +27,12 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 import javax.validation.constraints.Size;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import org.hibernate.envers.Audited;
-import org.hibernate.validator.constraints.NotEmpty;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -49,8 +51,16 @@ import org.springframework.format.annotation.DateTimeFormat.ISO;
     
     @NamedQuery(
             name="Contact.getContactById",
-            query="select distinct c from Contact c left join fetch c.telephons t left join fetch c.hobbies h where c.id=:id")
+            query="select distinct c from Contact c left join fetch c.telephons t left join fetch c.hobbies h where c.id=:id"),
+    
+    @NamedQuery(
+    	      name="Contact.getCount",
+    	      query="select count(*) from Contact")
  })
+
+
+
+
 public class Contact implements Serializable {
     /**
      * 
@@ -69,6 +79,7 @@ public class Contact implements Serializable {
 
     @ManyToMany
     @JoinTable(name="CONTACT_HOBBY", joinColumns = @JoinColumn(name="CONTACT_ID"), inverseJoinColumns = @JoinColumn(name="HOBBY_ID"))
+    @JsonIgnore
     public Set<Hobby> getHobbies() {
         return hobbies;
     }
@@ -77,6 +88,7 @@ public class Contact implements Serializable {
     }
     
     @OneToMany(mappedBy="contact", cascade=CascadeType.ALL, orphanRemoval=true/*, fetch=FetchType.EAGER*/)
+    @JsonIgnore
     public List<Telephon> getTelephons() {
         return telephons;
     }
@@ -127,6 +139,7 @@ public class Contact implements Serializable {
     
     @Version
     @Column(name="VERSION")
+    @JsonIgnore
     public int getVersion() {
         return version;
     }

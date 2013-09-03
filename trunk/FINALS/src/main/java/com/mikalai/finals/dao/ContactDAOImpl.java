@@ -12,12 +12,15 @@ import org.hibernate.envers.AuditReaderFactory;
 import org.hibernate.envers.query.AuditEntity;
 
 import org.hibernate.envers.query.AuditQueryCreator;
+
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.mikalai.finals.domain.Contact;
 import com.mikalai.finals.domain.Hobby;
+import com.mikalai.finals.web.form.ContactGrid;
+import com.mikalai.finals.web.form.PageRequest;
 
 
 @Repository("contactDAO")
@@ -90,6 +93,28 @@ public class ContactDAOImpl implements ContactDAO {
         return result;
 
     }
+
+	@Override
+	public ContactGrid findAllByPage(PageRequest pageRequest) {
+		int pageNumber = pageRequest.getPageNumber();
+		int pageSize = pageRequest.getPageSize();
+		int firstResult = pageNumber * pageSize;
+		
+		
+		List<Contact> contacts = sessionFactory.getCurrentSession().createQuery("FROM Contact c order by " + pageRequest.getSortField() + " " + pageRequest.getDirection())
+				.setFirstResult(firstResult)
+				.setMaxResults(pageSize)
+				.list();
+		Long totalCount =  (Long) sessionFactory.getCurrentSession().getNamedQuery("Contact.getCount").uniqueResult();
+		
+		ContactGrid contactGrid = new ContactGrid();
+		contactGrid.setCurrentPage(pageNumber + 1);
+		contactGrid.setTotalPages((int)Math.ceil(totalCount / (float) pageSize));
+		contactGrid.setTotalRecords(totalCount);
+		contactGrid.setContactData(contacts);
+		return contactGrid;
+
+	}
 
 
 }
