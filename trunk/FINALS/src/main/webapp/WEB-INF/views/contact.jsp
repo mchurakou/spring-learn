@@ -3,6 +3,10 @@
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
+ <spring:url value="/contacts/photo" var="photoURL"/> 
+ 
+ <spring:url value="/contacts" var="contactsURL"/> 
+
 
 <div>
 
@@ -22,7 +26,10 @@
 	
 </div>
 <div>	
-	<form:form modelAttribute="contact" id="contactForm"  >
+	 <c:if test="${contact.id != null}">
+	 	<a href="${contactsURL}/${contact.id}/log"><spring:message code="finals.log"/></a>
+	 </c:if>
+	<form:form modelAttribute="contact" id="contactForm" method="post" enctype="multipart/form-data" >
 			<c:if test="${not empty message}">
 				<div>${message}</div>
 			</c:if>
@@ -64,6 +71,21 @@
                    		<div>
                    			<form:errors path="birthDate" cssClass="error"/>
                    		</div>
+                   </td>
+               </tr>
+               
+               <tr>
+	               <td>
+	               	<label for="file">
+                       <spring:message code="contact.list.page.image"/>:
+                    </label> 
+                   </td>
+                   <td>
+                   		<c:if test="${contact.id != null}">
+                   			<img src="${photoURL}/${contact.id}"></img>
+                   		</c:if>
+         		
+                        <input name="file" type="file" />
                    </td>
                </tr>
       		</table>

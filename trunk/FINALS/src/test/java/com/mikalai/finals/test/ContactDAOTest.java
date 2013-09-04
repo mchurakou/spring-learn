@@ -23,6 +23,7 @@ import com.mikalai.finals.dao.ContactDAO;
 import com.mikalai.finals.domain.Contact;
 import com.mikalai.finals.domain.Hobby;
 import com.mikalai.finals.domain.Telephon;
+import com.mikalai.finals.web.form.AuditContactForm;
 
 
 
@@ -87,7 +88,7 @@ public class ContactDAOTest {
         newContact = contactDAO.getContactById(newContact.getId());
         Assert.assertNull(newContact);
         
-        List<Object []> audit = contactDAO.getAuditContacts(id);
+        List<AuditContactForm> audit = contactDAO.getAuditContacts(id);
         
         Assert.assertTrue(audit.size() > 0);
 

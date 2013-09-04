@@ -2,7 +2,7 @@ package com.mikalai.finals.web.form;
 
 import java.util.Locale;
 
-import org.springframework.data.domain.Sort.Direction;
+
 
 public class PageRequest {
 	private int pageNumber;
