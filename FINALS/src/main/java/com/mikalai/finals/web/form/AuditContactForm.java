@@ -3,10 +3,11 @@ package com.mikalai.finals.web.form;
 import java.util.Date;
 
 import com.mikalai.finals.domain.Contact;
+import com.mikalai.finals.domain.User;
 
 public class AuditContactForm {
 	private Contact contact;
-	private String user;
+	private User user;
 	private String opearation;
 	private Date date;
 	
@@ -16,10 +17,11 @@ public class AuditContactForm {
 	public void setContact(Contact contact) {
 		this.contact = contact;
 	}
-	public String getUser() {
+
+	public User getUser() {
 		return user;
 	}
-	public void setUser(String user) {
+	public void setUser(User user) {
 		this.user = user;
 	}
 	public String getOpearation() {

@@ -3,7 +3,6 @@ package com.mikalai.finals.web.controller;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -12,11 +11,11 @@ import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 import org.apache.commons.io.IOUtils;
-import org.hibernate.envers.RevisionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,7 +27,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mikalai.finals.domain.Contact;
-import com.mikalai.finals.domain.audit.RevisionEntity;
 import com.mikalai.finals.service.ContactService;
 import com.mikalai.finals.web.form.AuditContactForm;
 import com.mikalai.finals.web.form.ContactGrid;
@@ -70,6 +68,7 @@ public class ContactController {
 		return "contact/list";
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/contacts/{id}", method = RequestMethod.GET)
 	public String showContact(@PathVariable("id") Long id,Locale locale, Model model) {
 		logger.info("User entered in show contact page");
@@ -83,6 +82,7 @@ public class ContactController {
 		return "contact/show";
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value={"/contacts/{id}", "/contacts/add"},  method = RequestMethod.POST)
 	public String saveContact(@Valid Contact contact, BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
 			@RequestParam(value="file", required=false) Part file) {
@@ -123,6 +123,7 @@ public class ContactController {
 		return "redirect:/contacts/" + contact.getId();
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/contacts/add", method = RequestMethod.GET)
 	public String showNewContactForm(Locale locale, Model model) {
 		logger.info("User entered in new contact contact page");
@@ -133,7 +134,7 @@ public class ContactController {
 		return "contact/show";
 	}
 	
-	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/contacts/{id}/delete",  method = RequestMethod.GET)
     public String deleteContact(@PathVariable("id") Long id,Locale locale, Model model) {
         logger.info("User try to delete contact");
@@ -179,6 +180,7 @@ public class ContactController {
 		return contactGrid;
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/contacts/photo/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public byte[] downloadPhoto(@PathVariable("id") Long id) {
@@ -192,6 +194,7 @@ public class ContactController {
 		return contact.getPhoto();
 	}
 	
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/contacts/{id}/log", method = RequestMethod.GET)
 	public String showLogForContact(@PathVariable("id") Long id,Locale locale, Model model) {
 		logger.info("User entered in show log for contact");
