@@ -13,6 +13,7 @@ import com.mikalai.finals.domain.Contact;
 import com.mikalai.finals.domain.Hobby;
 import com.mikalai.finals.domain.audit.RevisionEntity;
 import com.mikalai.finals.service.ContactService;
+import com.mikalai.finals.web.form.AuditContactForm;
 
 
 
@@ -81,15 +82,13 @@ public class Test {
         System.out.println("Audit:");
         
         
-        List<Object []> audit = contactService.getAuditContacts(newContact.getId());
+        List<AuditContactForm> audit = contactService.getAuditContacts(newContact.getId());
         
-        for (Object[] a : audit){
-            Contact c = (Contact) a[0];
-            RevisionEntity re = (RevisionEntity) a[1];
-            RevisionType rt = (RevisionType) a[2];
+        for (AuditContactForm a : audit){
+            
             
 
-            System.out.println(c.show() + " | " + re.getUser() + "|" + rt.name() + "|" + re.getRevisionDate() + "|" + new Date(re.getTimestamp()));
+            System.out.println(a.getContact() + " | " + a.getUser() + "|" + a.getOpearation() + "|" + a.getDate());
         }
         System.out.println("Finish");
         

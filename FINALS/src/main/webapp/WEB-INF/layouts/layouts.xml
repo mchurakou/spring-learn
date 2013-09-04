@@ -20,6 +20,11 @@
         <put-attribute name="body"
             value="/WEB-INF/views/contact.jsp" />
     </definition>
+    
+    <definition extends="default" name="contact/audit">
+        <put-attribute name="body"
+            value="/WEB-INF/views/contact_audit.jsp" />
+    </definition>
 
 
 </tiles-definitions>

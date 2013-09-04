@@ -11,13 +11,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -32,6 +35,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
@@ -72,7 +76,11 @@ public class Contact implements Serializable {
     private String firstName;
     private String lastName;
     private Date birthDate;
-    private int version;
+    private byte[] photo;
+    
+    
+
+	private int version;
     private List<Telephon> telephons = new ArrayList<Telephon>();
     
     private Set<Hobby> hobbies = new HashSet<Hobby>();
@@ -144,21 +152,31 @@ public class Contact implements Serializable {
         return version;
     }
   
+    @NotAudited
+    @Basic(fetch=FetchType.LAZY)
+	@Lob @Column(name = "PHOTO")
+    public byte[] getPhoto() {
+		return photo;
+	}
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
+	}
 
   
     @Override
     public String toString() {
-        return "Contact [id=" + id + ", firstName=" + firstName + ", lastName="
-                + lastName + ", birthDate=" + birthDate + ", version="
-                + version + ", telephons=" + telephons + ", hobbies=" + hobbies
-                + "]";
+    	return "Contact [id=" + id + ", firstName=" + firstName + ", lastName="
+                + lastName + ", birthDate=" + birthDate + ", version=" + version + "]";
+    
     }
     
   
     public String show() {
-        return "Contact [id=" + id + ", firstName=" + firstName + ", lastName="
-                + lastName + ", birthDate=" + birthDate + ", version=" + version + "]";
-    }
+    	return "Contact [id=" + id + ", firstName=" + firstName + ", lastName="
+                + lastName + ", birthDate=" + birthDate + ", version="
+                + version + ", telephons=" + telephons + ", hobbies=" + hobbies
+                + "]";
+    }    
     
     public void setVersion(int version) {
         this.version = version;

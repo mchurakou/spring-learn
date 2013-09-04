@@ -3,13 +3,11 @@ package com.mikalai.finals.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-
-
 
 import com.mikalai.finals.dao.ContactDAO;
 import com.mikalai.finals.domain.Contact;
 import com.mikalai.finals.domain.Hobby;
+import com.mikalai.finals.web.form.AuditContactForm;
 import com.mikalai.finals.web.form.ContactGrid;
 import com.mikalai.finals.web.form.PageRequest;
 
@@ -54,8 +52,8 @@ public class ContactServiceImpl implements ContactService {
 
     }
 
-    public List<Object[]> getAuditContacts(Long id) {
-        List<Object[]> audit = contactDAO.getAuditContacts(id);
+    public List<AuditContactForm> getAuditContacts(Long id) {
+        List<AuditContactForm> audit = contactDAO.getAuditContacts(id);
         return audit;
     }
     

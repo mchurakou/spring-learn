@@ -55,7 +55,7 @@
 	
 	
 	
-    <spring:url value="/contacts/" var="showContactUrl"/>   
+    <spring:url value="/contacts" var="showContactUrl"/>   
     
     <script type="text/javascript">
     $(function(){      
@@ -87,10 +87,10 @@
         height: 250,
         width: 500,
         caption: '<spring:message code="contact.list.page.list.of.contacts"/>',
-        hidegrid: false
-        /*onSelectRow: function(id){ 
+        hidegrid: false,
+        onSelectRow: function(id){ 
             document.location.href ="${showContactUrl}/" + id;
-        }*/
+        }
       });
     });
     </script>

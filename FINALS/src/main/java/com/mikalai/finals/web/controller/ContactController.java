@@ -1,17 +1,22 @@
 package com.mikalai.finals.web.controller;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
 import javax.validation.Valid;
 
+import org.apache.commons.io.IOUtils;
+import org.hibernate.envers.RevisionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +28,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mikalai.finals.domain.Contact;
+import com.mikalai.finals.domain.audit.RevisionEntity;
 import com.mikalai.finals.service.ContactService;
+import com.mikalai.finals.web.form.AuditContactForm;
 import com.mikalai.finals.web.form.ContactGrid;
 import com.mikalai.finals.web.form.PageRequest;
 
@@ -76,8 +83,9 @@ public class ContactController {
 		return "contact/show";
 	}
 	
-	@RequestMapping(value = "/contacts/{id}",  method = RequestMethod.POST)
-	public String saveContact(@Valid Contact contact, BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
+	@RequestMapping(value={"/contacts/{id}", "/contacts/add"},  method = RequestMethod.POST)
+	public String saveContact(@Valid Contact contact, BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale,
+			@RequestParam(value="file", required=false) Part file) {
 		logger.info("Save contact");
 		
 		if (bindingResult.hasErrors()){
@@ -90,6 +98,24 @@ public class ContactController {
 		
 		String successMessage = messageSource.getMessage("success.contact.save", new Object[]{},locale);
 		redirectAttributes.addFlashAttribute("message", successMessage);
+		
+		 // Process upload file
+        if (file != null) {
+			logger.info("File name: " + file.getName());
+			logger.info("File size: " + file.getSize());
+			logger.info("File content type: " + file.getContentType());
+			byte[] fileContent = null;
+			try {
+				InputStream inputStream = file.getInputStream();
+				if (inputStream == null) logger.info("File inputstream is null");
+				fileContent = IOUtils.toByteArray(inputStream);
+				contact.setPhoto(fileContent);
+			} catch (IOException ex) {
+				logger.error("Error saving uploaded file");
+			}
+			contact.setPhoto(fileContent);
+		}       
+		
 		contactService.save(contact);
 		
 		logger.info("Contact was saved: " + contact);
@@ -107,26 +133,6 @@ public class ContactController {
 		return "contact/show";
 	}
 	
-	@RequestMapping(value = "/contacts/add",  method = RequestMethod.POST)
-	public String addContact(@Valid Contact contact, BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest, RedirectAttributes redirectAttributes, Locale locale) {
-		logger.info("Add contact");
-		
-		if (bindingResult.hasErrors()){
-			String errorMessage = messageSource.getMessage("error.contact.save", new Object[]{},locale);
-			model.addAttribute("message", errorMessage);
-			return "contact/show";
-		}
-		
-		model.asMap().clear();
-		
-		String successMessage = messageSource.getMessage("success.contact.save", new Object[]{},locale);
-		redirectAttributes.addFlashAttribute("message", successMessage);
-		contactService.save(contact);
-		
-		logger.info("Contact was added: " + contact);
-
-		return "redirect:/contacts/" + contact.getId();
-	}
 	
 	@RequestMapping(value = "/contacts/{id}/delete",  method = RequestMethod.GET)
     public String deleteContact(@PathVariable("id") Long id,Locale locale, Model model) {
@@ -165,16 +171,38 @@ public class ContactController {
 			pageRequest.setSortField(sortBy);
 		}
 		
-		
-		
-		
-	
+
 				
 		ContactGrid contactGrid = contactService.findAllByPage(pageRequest);
 
 		logger.info("Retrived contacts size:" + contactGrid.getContactData().size());
 		return contactGrid;
-	}	
+	}
+	
+	@RequestMapping(value = "/contacts/photo/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public byte[] downloadPhoto(@PathVariable("id") Long id) {
+		
+		Contact contact = contactService.getContactById(id);
+        
+        if (contact.getPhoto() != null) {
+    		logger.info("Downloading photo for id: {} with size: {}", contact.getId(), contact.getPhoto().length);
+        }
+        
+		return contact.getPhoto();
+	}
+	
+	@RequestMapping(value = "/contacts/{id}/log", method = RequestMethod.GET)
+	public String showLogForContact(@PathVariable("id") Long id,Locale locale, Model model) {
+		logger.info("User entered in show log for contact");
+		
+		
+		List<AuditContactForm> audit = contactService.getAuditContacts(id);
+		model.addAttribute("audit",audit);
+		
+		logger.info("show log view");
+		return "contact/audit";
+	}
 	
 	public MessageSource getMessageSource() {
 		return messageSource;
