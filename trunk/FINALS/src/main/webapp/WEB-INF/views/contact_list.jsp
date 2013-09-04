@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="security" %>
 
 
 <div>
@@ -30,9 +31,16 @@
 	                       ${status.count}
 	                   </td>
 	                   <td>
-	                   	   <a href="contacts/${contact.id}">
-	                       		${contact.firstName}
-	                       </a>
+	                   		<security:authorize access="hasRole('ROLE_USER')">
+	                   			<a href="contacts/${contact.id}">
+	                       			${contact.firstName}
+	                       		</a>
+	                   		</security:authorize>
+	                   		<security:authorize access="isAnonymous()">
+	                   			${contact.firstName}
+	                   		</security:authorize>
+	                   
+	                   	   
 	                   </td>
 	                   <td>
 	                       ${contact.lastName}
@@ -41,7 +49,9 @@
 	                        ${contact.birthDate}
 	                   </td>
 	                   <td>
-	                       <a href="contacts/${contact.id}/delete">delete</a>
+	                   		<security:authorize access="hasRole('ROLE_USER')">
+	                   			<a href="contacts/${contact.id}/delete">delete</a>
+	                   		</security:authorize>
 	                   </td>
 	                   
                     </tr>
@@ -87,10 +97,12 @@
         height: 250,
         width: 500,
         caption: '<spring:message code="contact.list.page.list.of.contacts"/>',
-        hidegrid: false,
+        hidegrid: false
+        <security:authorize access="hasRole('ROLE_USER')">,
         onSelectRow: function(id){ 
             document.location.href ="${showContactUrl}/" + id;
         }
+        </security:authorize>
       });
     });
     </script>

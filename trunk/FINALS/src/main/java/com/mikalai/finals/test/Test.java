@@ -88,7 +88,7 @@ public class Test {
             
             
 
-            System.out.println(a.getContact() + " | " + a.getUser() + "|" + a.getOpearation() + "|" + a.getDate());
+            System.out.println(a.getContact() + " | " + a.getUser().getCredential().getLogin() + "|" + a.getOpearation() + "|" + a.getDate());
         }
         System.out.println("Finish");
         

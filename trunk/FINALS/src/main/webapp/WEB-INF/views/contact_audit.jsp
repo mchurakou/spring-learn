@@ -46,7 +46,7 @@
 	                        ${auditRecord.opearation}
 	                   </td>
 	                   <td>
-	                        ${auditRecord.user}
+	                        ${auditRecord.user.credential.login}
 	                   </td>
 	                   <td>
 	                        ${auditRecord.date}
