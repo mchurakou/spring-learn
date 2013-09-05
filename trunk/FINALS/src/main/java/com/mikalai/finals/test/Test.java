@@ -11,6 +11,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import com.mikalai.finals.dao.ContactDAO;
 import com.mikalai.finals.domain.Contact;
 import com.mikalai.finals.domain.Hobby;
+import com.mikalai.finals.domain.User;
 import com.mikalai.finals.domain.audit.RevisionEntity;
 import com.mikalai.finals.service.ContactService;
 import com.mikalai.finals.web.form.AuditContactForm;
@@ -86,11 +87,13 @@ public class Test {
         
         for (AuditContactForm a : audit){
             
-            
+           System.out.println(a.getContact() + " | " + a.getUserName() + "|" + a.getOpearation() + "|" + a.getDate());
 
-            System.out.println(a.getContact() + " | " + a.getUser().getCredential().getLogin() + "|" + a.getOpearation() + "|" + a.getDate());
+                
         }
         System.out.println("Finish");
+        
+        
         
         
         

@@ -9,9 +9,11 @@ import java.util.List;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import javax.persistence.Table;
 
@@ -19,10 +21,11 @@ import javax.persistence.Table;
 import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-
+import com.mikalai.finals.domain.audit.RevisionEntity;
 
 
 @Entity
@@ -38,7 +41,6 @@ public class User {
     
    
     private List<Role> roles = new ArrayList<Role>();
-    
 
 
 
@@ -88,7 +90,8 @@ public class User {
         this.roles = roles;
     }
     
-    
+
+
 
 
 }
