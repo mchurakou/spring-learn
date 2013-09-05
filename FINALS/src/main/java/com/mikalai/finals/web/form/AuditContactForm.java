@@ -7,7 +7,7 @@ import com.mikalai.finals.domain.User;
 
 public class AuditContactForm {
 	private Contact contact;
-	private User user;
+	private String userName;
 	private String opearation;
 	private Date date;
 	
@@ -18,13 +18,14 @@ public class AuditContactForm {
 		this.contact = contact;
 	}
 
-	public User getUser() {
-		return user;
-	}
-	public void setUser(User user) {
-		this.user = user;
-	}
-	public String getOpearation() {
+
+	public String getUserName() {
+        return userName;
+    }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+    public String getOpearation() {
 		return opearation;
 	}
 	public void setOpearation(String opearation) {

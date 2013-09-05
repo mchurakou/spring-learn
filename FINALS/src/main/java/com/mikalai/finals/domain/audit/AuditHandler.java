@@ -25,16 +25,18 @@ public class AuditHandler implements RevisionListener {
     public void newRevision(Object revision) {
         RevisionEntity revisionEntity = (RevisionEntity) revision;
         
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-       
-        UserDetails userDetails = null;
-        if (principal instanceof UserDetails) {
-          userDetails = (UserDetails) principal;
-        }
-        String userName = userDetails.getUsername();
         
-        User user = userDAO.getUserByLogin(userName);
-        revisionEntity.setUser(user);
+        if (SecurityContextHolder.getContext().getAuthentication() != null){
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal != null){
+                UserDetails userDetails = null;
+                if (principal instanceof UserDetails) {
+                  userDetails = (UserDetails) principal;
+                }
+
+                revisionEntity.setUserName(userDetails.getUsername());
+            }
+        }
     }
 
 }

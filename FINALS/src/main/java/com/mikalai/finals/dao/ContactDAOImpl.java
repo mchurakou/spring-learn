@@ -102,7 +102,7 @@ public class ContactDAOImpl implements ContactDAO {
             
             AuditContactForm auditContactForm = new AuditContactForm();
             auditContactForm.setContact(c);
-            auditContactForm.setUser(re.getUser());
+            auditContactForm.setUserName(re.getUserName());
             auditContactForm.setOpearation(rt.name());
             auditContactForm.setDate(re.getRevisionDate());
             result.add(auditContactForm);
