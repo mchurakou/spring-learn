@@ -41,7 +41,10 @@
         </property>
     </bean>    
 
-	<context:component-scan base-package="com.mikalai.spring.service" />
+	<context:component-scan base-package="com.mikalai.spring.service">
+		<context:exclude-filter type="regex"  expression="com.mikalai.spring.service.jta.*"/>
+	</context:component-scan>
+	
 
     <jpa:repositories base-package="com.mikalai.spring.repository"
                       entity-manager-factory-ref="emf"
