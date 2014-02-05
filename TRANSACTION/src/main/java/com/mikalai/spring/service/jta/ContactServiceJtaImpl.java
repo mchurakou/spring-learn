@@ -48,8 +48,8 @@ public class ContactServiceJtaImpl implements ContactService {
         
         if (contact.getId() == null){
             emA.persist(contact);
-            throw new JpaSystemException(new PersistenceException());
-            //emB.persist(contactB);
+           // throw new JpaSystemException(new PersistenceException());
+            emB.persist(contactB);
         } else {
             emA.merge(contact);
             emB.merge(contactB);
